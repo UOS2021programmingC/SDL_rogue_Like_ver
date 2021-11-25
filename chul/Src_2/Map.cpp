@@ -17,6 +17,13 @@ Map::Map()
     dest.x = dest.y = 0;
 }
 
+Map::~Map() //clean memory
+{
+    SDL_DestroyTexture(grass);
+    SDL_DestroyTexture(water);
+    SDL_DestroyTexture(dirt);
+}
+
 void Map::LoadMap(int maplv)
 {
     FILE *myFile;

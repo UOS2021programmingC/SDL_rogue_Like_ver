@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <bitset>
 #include <array>
+#include <string>
 
 
 #define PLAYER_SIZE 64

@@ -12,6 +12,7 @@ Manager manager;
 SDL_Event Game::event;
 
 auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
 
 static int mapArray[mapTile_row][mapTile_column];
 
@@ -40,10 +41,14 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//ECS implements 
 
-	player.addComponent<TransformComponent>();
+	player.addComponent<TransformComponent>(2); //default  = (x0,y0) = (0.0f,0.0f)
 	player.addComponent<SpriteComponent>("./assets/warrior.png");
 	player.addComponent<KeyboardController>();
-	
+	player.addComponent<ColliderComponent>("player"); //tag
+
+	wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1); // x,y,w,h,sc
+	wall.addComponent<SpriteComponent>("./assets/dirt.png"); //src path
+	wall.addComponent<ColliderComponent>("wall"); //tag
 	}
 
 void Game::handleEvents()
@@ -65,6 +70,13 @@ void Game::update()
 {
 	manager.refresh();
 	manager.update();
+
+	if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
+						wall.getComponent<ColliderComponent>().collider)) //player와 wall의 충돌발생 시
+	{
+		player.getComponent<TransformComponent>().scale = 1;  //이렇게 하면 플레이어 크기가 반토막남 2->1
+		std::cout << "Wall Hit!!" << std::endl;
+	}
 
 	//조건에따른 텍스터 교체 부분 사용법
 /*

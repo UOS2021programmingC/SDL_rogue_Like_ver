@@ -5,7 +5,7 @@
 #include "TextureManager.h"
 #include "Map.h"
 #include "Vector2D.h"
-
+#include "Collision.h"
 
 class Game
 {
