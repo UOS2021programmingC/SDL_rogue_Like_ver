@@ -1,10 +1,10 @@
-// #ifndef KEYBOARD_H
-// #define KEYBOARD_H
-#pragma once
+#ifndef KEYBOARD_H
+#define KEYBOARD_H
 
-#include "../Game.h"
-#include "ECS.h"
+#include "../Game.h"//순환 dependancy 조심 
 #include "Components.h"
+
+class Game;
 
 class KeyboardController : public Component
 {
@@ -64,4 +64,4 @@ public:
 };
 
 
-// #endif
+#endif

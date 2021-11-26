@@ -2,7 +2,6 @@
 #define POS_COMPO_H
 
 #include "Components.h"
-//../ 현재위치의 상단폴더
 #include "../Vector2D.h"
 
 struct TransformComponent : public Component

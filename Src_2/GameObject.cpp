@@ -1,3 +1,5 @@
+#if 0
+
 #include "GameObject.h"
 
 GameObject::GameObject(const char* texturesheet,int x, int y)
@@ -29,3 +31,5 @@ void GameObject::Render()
 {
     SDL_RenderCopy(Game::renderer, objTexture, &srcRect, &destRect);
 }
+
+#endif

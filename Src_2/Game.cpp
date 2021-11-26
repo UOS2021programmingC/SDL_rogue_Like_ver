@@ -1,8 +1,7 @@
 #include "Game.h"
+//순환 dependancy 조심 #include Game.h 하는 헤더파일은 여기에
 #include "ECS/Components.h"
-
-//git init test~~
-//test@!!!@@
+#include "Collision.h"
 
 Game::Game()
 {}
@@ -14,8 +13,14 @@ SDL_Renderer* Game::renderer = nullptr;
 Manager manager;
 SDL_Event Game::event;
 
+std::vector<ColliderComponent*> Game::colliders;
+
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
+
+auto& tile0(manager.addEntity());
+auto& tile1(manager.addEntity());
+auto& tile2(manager.addEntity());
 
 static int mapArray[mapTile_row][mapTile_column];
 
@@ -44,12 +49,20 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	//ECS implements 
 
-	player.addComponent<TransformComponent>(2); //default  = (x0,y0) = (0.0f,0.0f)
+	tile0.addComponent<TileComponent>(200,200,32,32,0); //0=water
+
+	tile1.addComponent<TileComponent>(250,250,32,32,1); //1=grass
+	tile1.addComponent<ColliderComponent>("dirt");
+
+	tile2.addComponent<TileComponent>(150,150,32,32,2); //2=dirt
+	tile2.addComponent<ColliderComponent>("dirt"); 
+
+	player.addComponent<TransformComponent>(SCALE*2); //default  = (x0,y0) = (0.0f,0.0f)
 	player.addComponent<SpriteComponent>("./assets/warrior.png");
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player"); //tag
 
-	wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1); // x,y,w,h,sc
+	wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,SCALE); // x,y,w,h,sc
 	wall.addComponent<SpriteComponent>("./assets/dirt.png"); //src path
 	wall.addComponent<ColliderComponent>("wall"); //tag
 	}
@@ -74,10 +87,15 @@ void Game::update()
 	manager.refresh();
 	manager.update();
 
+	for (auto cc: colliders)
+	{
+		Collision::AABB(player.getComponent<ColliderComponent>(),*cc); //충돌 체크
+	}
+	
 	if(Collision::AABB(player.getComponent<ColliderComponent>().collider,
 						wall.getComponent<ColliderComponent>().collider)) //player와 wall의 충돌발생 시
 	{
-		player.getComponent<TransformComponent>().scale = 1;  //이렇게 하면 플레이어 크기가 반토막남 2->1
+		player.getComponent<TransformComponent>().scale = SCALE;  //이렇게 하면 플레이어 크기가 반토막남 2scale->1scale
 		/*
 		*hit 발생시 속도변화
 		*-1 = 튕김(bounce) 
@@ -89,8 +107,6 @@ void Game::update()
 
 	//조건에따른 텍스터 교체 부분 사용법
 /*
-	
-
 	if(player.getComponent<TransformComponent>().x()>100)
 	{
 		player.getComponent<SpriteComponent>().setTex("./assets/Enemy_purple_slime(left).png");

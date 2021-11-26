@@ -1,8 +1,9 @@
-#pragma Once
+#ifndef COLLI_COM
+#define COLLI_COM
 
-#include "../defs.h"
 #include "Components.h"
-
+#include "TransformComponent.h"
+#include "../Game.h"
 
 class ColliderComponent : public Component 
 {
@@ -25,6 +26,8 @@ public:
         }
 
         transform = &entity->getComponent<TransformComponent>();
+
+        Game::colliders.push_back(this);
     }
 
     void update() override
@@ -37,3 +40,5 @@ public:
 
 
 };
+
+#endif

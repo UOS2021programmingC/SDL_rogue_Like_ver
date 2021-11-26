@@ -1,9 +1,8 @@
 #ifndef SPR_COMPO_H
 #define SPR_COMPO_H
 
-#include "../defs.h"
 #include "Components.h"
-//#include "../TextureManager.h"
+#include "../TextureManager.h"
 
 class SpriteComponent : public Component 
 {
@@ -24,8 +23,6 @@ public:
     {
         SDL_DestroyTexture(texture);
     }
-
-
 
     void setTex(const char* path)
     {

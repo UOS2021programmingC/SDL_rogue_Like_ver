@@ -1,5 +1,5 @@
 #ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
+// #define GAMEOBJECT_H
 
 #include "defs.h"
 #include "TextureManager.h"
