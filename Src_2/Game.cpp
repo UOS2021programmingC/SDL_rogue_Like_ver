@@ -78,6 +78,12 @@ void Game::update()
 						wall.getComponent<ColliderComponent>().collider)) //player와 wall의 충돌발생 시
 	{
 		player.getComponent<TransformComponent>().scale = 1;  //이렇게 하면 플레이어 크기가 반토막남 2->1
+		/*
+		*hit 발생시 속도변화
+		*-1 = 튕김(bounce) 
+		* 0 = 무한충돌(충돌에서 탈출못함, 속도0고정)
+		*/
+		player.getComponent<TransformComponent>().velocity*(-1); 
 		std::cout << "Wall Hit!!" << std::endl;
 	}
 

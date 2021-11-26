@@ -22,21 +22,20 @@ public:
 
     TransformComponent() 
     {
-        position.x = 0.0f;
-        position.y = 0.0f;
+        position.Zero();
     }
 
     TransformComponent(int sc) 
     {
-        position.x = 0.0f;
-        position.y = 0.0f;
+        position.Zero();
         scale = sc;
     }
 
     TransformComponent(float x, float y)
     {
-        position.x =x;
-        position.y =y;
+        // position.x =x;
+        // position.y =y;
+        position.Zero();
     }
 
      TransformComponent(float x, float y, int w, int h, int sc)
@@ -52,8 +51,7 @@ public:
     {
         // position.x = 0.0f;
         // position.y = 0.0f;
-        velocity.x = 0;
-        velocity.y = 0;
+        velocity.Zero();
     }
 
     void update() override 
@@ -63,11 +61,6 @@ public:
         position.x += velocity.x*speed;
         position.y += velocity.y*speed;
     }
-    // void setPos(float x, float y)
-    // {
-    //     position.x = x;
-    //     position.y = y;
-    // }
 
 };
 
