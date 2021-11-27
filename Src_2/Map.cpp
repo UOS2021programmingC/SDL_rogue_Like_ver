@@ -4,26 +4,48 @@
 
 Map::Map()
 {
-    dirt = TextureManager::LoadTexture("./assets/dirt.png");
-    grass = TextureManager::LoadTexture("./assets/grass.png");
-    water = TextureManager::LoadTexture("./assets/water.png");
+    // dirt = TextureManager::LoadTexture("./assets/dirt.png");
+    // grass = TextureManager::LoadTexture("./assets/grass.png");
+    // water = TextureManager::LoadTexture("./assets/water.png");
 
-    //LoadMap(1);
+    // //LoadMap(1);
     
-    src.x = src.y = 0;
-    src.w = dest.w = OBJSIZE;
-    src.h = dest.h = OBJSIZE;
+    // src.x = src.y = 0;
+    // src.w = dest.w = OBJSIZE;
+    // src.h = dest.h = OBJSIZE;
 
-    dest.x = dest.y = 0;
+    // dest.x = dest.y = 0;
 }
 
 Map::~Map() //clean memory
 {
-    SDL_DestroyTexture(grass);
-    SDL_DestroyTexture(water);
-    SDL_DestroyTexture(dirt);
+    // SDL_DestroyTexture(grass);
+    // SDL_DestroyTexture(water);
+    // SDL_DestroyTexture(dirt);
 }
 
+void Map::LoadMap(std::string path, int sizeX, int sizeY)
+{
+    char tile;
+    std::fstream mapFile;
+    mapFile.open(path);
+
+    for(int y = 0; y < sizeY; y++)
+    {
+        for(int x = 0; x < sizeX; x++) 
+        {
+            mapFile.get(tile);
+            Game::AddTile(atoi(&tile), x*OBJSIZE, y*OBJSIZE);
+            mapFile.ignore();
+        }
+    }
+
+    mapFile.close();
+}
+
+
+
+#if 0
 void Map::LoadMap(int maplv)
 {
     FILE *myFile;
@@ -78,3 +100,4 @@ void Map::DrawMap()
         }
     }
 }
+#endif

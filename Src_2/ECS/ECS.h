@@ -5,14 +5,16 @@
 
 class Component;
 class Entity;
+class Manager;
 
-using ComponentID =  std::size_t; 
-//표준 라이브러리 사용시 std:: 접두어를 붙여햐한다.
-// ComponentID를 size_t라고 쓰겠다는 것을 알려줌 (=typedef와비슷한 기능)
+// using ComponentID =  std::size_t; 
+// //표준 라이브러리 사용시 std:: 접두어를 붙여햐한다.
+// // size_t를 ComponentID라고 쓰겠다는 것을 알려줌 (=typedef와비슷한 기능)
+// using Group = std::size_t;
 
-inline ComponentID getComponentTypeID()
+inline std::size_t getNewComponentTypeID()
 {
-    static ComponentID lastID = 0;
+    static std::size_t lastID = 0u;
     return lastID++;
 }
 
@@ -25,9 +27,9 @@ inline ComponentID getComponentTypeID()
  *          추가적으로 자원이 사용되는 현상.
  */
 
-template <typename T> inline ComponentID getComponentTypeID() noexcept
+template <typename T> inline std::size_t getComponentTypeID() noexcept
 {
-    static ComponentID typeID = getComponentTypeID();
+    static std::size_t typeID = getNewComponentTypeID();
     return typeID;
 }
 
@@ -40,9 +42,12 @@ template <typename T> inline ComponentID getComponentTypeID() noexcept
  * 컴파일이 되지 않는다.
  */
 
-constexpr std::size_t maxComponents = 32;
+constexpr std::size_t maxComponents = MAX_COMPONENETS;
+constexpr std::size_t maxGroups = MAX_GROUPS;
 
 using ComponentBitSet = std::bitset<maxComponents>;
+using GroupBitSet = std::bitset<maxGroups>;
+
 using ComponentArray = std::array<Component*,maxComponents>;
 
 
@@ -77,7 +82,21 @@ class Component
 
 class Entity
 {
+
+private:
+
+    Manager& manager;
+    bool active = true;
+    std::vector<std::unique_ptr<Component >> components;
+
+    ComponentArray componentArray;
+    ComponentBitSet componentBitset;
+    GroupBitSet groupBitset;
+
 public:
+    //mManager = memebermanager
+    Entity(Manager& mManager) : manager(mManager) {}
+
     void update()
     {
         for(auto& c : components) c->update();    
@@ -88,6 +107,17 @@ public:
     }
     bool isActive() const { return active; }
     void destroy() { active = false; }
+
+    bool hasGroup(std::size_t mGroup)
+    {
+        return groupBitset[mGroup];
+    }
+
+    void addGroup(std::size_t mGroup);
+    void delGroup(std::size_t mGroup)
+    {
+        groupBitset[mGroup] = false;
+    }
 
     template <typename T> bool hasComponent() const 
     {
@@ -123,17 +153,16 @@ public:
     //how to use compoenet sys
     /*gameobject.getComponent<PositionCompoenet>().setXpos(25);*/
 
-private:
-    bool active = true;
-    std::vector<std::unique_ptr<Component >> components;
 
-    ComponentArray componentArray;
-    ComponentBitSet componentBitset;
 
 };
 
 class Manager
 {
+private:
+    std::vector<std::unique_ptr<Entity>> entities;
+    std::array<std::vector<Entity*>, maxGroups> groupedEntities; //원소가 Entity pointer인 32(maxGroups의 개수)인 포인터배열 만듦.
+     
 public:
 void update(){
     for (auto& e : entities) e->update();
@@ -141,22 +170,45 @@ void update(){
 void draw(){
     for (auto& e : entities) e->draw();
 }
-void refresh(){
+void refresh()
+{   
+    //remove Entity from Group
+    for(auto i(0u); i < maxGroups; i++)
+    {
+        auto& v(groupedEntities[i]);
+        v.erase(
+            std::remove_if(std::begin(v), std::end(v),
+            [i](Entity* mEntity)
+        {
+            return !mEntity->isActive() || !mEntity -> hasGroup(i);
+        }),
+            std::end(v));
+    }
+
     entities.erase(std::remove_if(std::begin(entities),std::end(entities),
     [](const std::unique_ptr<Entity> &mEntity){
         return !mEntity -> isActive();
     }),
     std::end(entities));
 }
+
+void AddToGroup(Entity* mEntity, std::size_t mGroup)
+{
+    groupedEntities[mGroup].emplace_back(mEntity);
+}
+
+std::vector<Entity*>& getGroup(std::size_t mGroup)
+{
+    return groupedEntities[mGroup];  //give us the lis of all entities inside the group.
+}
+
 Entity& addEntity()
 {
-    Entity* e = new Entity();
+    Entity* e = new Entity(*this);
     std::unique_ptr<Entity> uPtr{e};
     entities.emplace_back(std::move(uPtr));
     return *e;
 }
-private:
-    std::vector<std::unique_ptr<Entity>> entities;
 
 };
 

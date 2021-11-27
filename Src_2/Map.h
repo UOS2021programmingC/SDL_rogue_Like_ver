@@ -1,8 +1,10 @@
 #ifndef MAP_H 
 #define MAP_H 
 
+#include "Game.h"
 #include "defs.h"
-#include "TextureManager.h"
+// #include "TextureManager.h"
+
 class Map
 {
 public:
@@ -10,11 +12,13 @@ public:
     Map();
     ~Map();
 
-    void LoadMap(int maplv);
-    void DrawMap();
+    static void LoadMap(std::string path, int sizeX, int sizeY);
+    
+    // void DrawMap();
 
 private:
 
+#if 0
     SDL_Rect src, dest;  //src=source , dest = destination
 
     SDL_Texture *dirt;
@@ -22,7 +26,8 @@ private:
     SDL_Texture *water;
 
     int map[mapTile_row][mapTile_column];
-    
+#endif  
+
 
 };
 

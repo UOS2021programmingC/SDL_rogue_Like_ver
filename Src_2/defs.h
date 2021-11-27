@@ -14,6 +14,7 @@
 #include <bitset>
 #include <array>
 #include <string>
+#include <fstream>
 
 
 #define PLAYER_SIZE (64)
@@ -23,6 +24,10 @@
 
 #define mapTile_row (20)
 #define mapTile_column (25)
+
+#define MAX_COMPONENETS (32)
+#define MAX_GROUPS (32)
+
 
 #define WINDOW_WIDTH (OBJSIZE * mapTile_column)   //800
 #define WINDOW_HEIGHT (OBJSIZE * mapTile_row)     //640

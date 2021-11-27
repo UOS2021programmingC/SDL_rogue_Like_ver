@@ -21,6 +21,7 @@ public:
     FILE *tiletxt;
     int map[mapTile_row][mapTile_column];
 #endif
+
     TileComponent() = default;
     TileComponent(int x, int y, int w, int h, int id)
     {
@@ -71,7 +72,6 @@ public:
           }
         }
 #endif
-
+};
 #endif
 
-};
