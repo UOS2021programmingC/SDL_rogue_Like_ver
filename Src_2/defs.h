@@ -32,8 +32,8 @@
 #define WINDOW_WIDTH (OBJSIZE * mapTile_column)   //800
 #define WINDOW_HEIGHT (OBJSIZE * mapTile_row)     //640
 
-#define SPEED_DEFAULT (3)
-#define SCALE (1)
+#define SPEED_DEFAULT (3)  //entity 이동속도
+#define SCALE (1)           //draw scale
 
 
 

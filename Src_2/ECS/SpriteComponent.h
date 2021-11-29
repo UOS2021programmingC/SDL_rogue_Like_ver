@@ -11,6 +11,10 @@ private:
     SDL_Texture *texture;
     SDL_Rect srcRect, destRect;
 
+    bool animated = false;
+    int frames = 0;
+    int speed = 100; //delay between frames.
+
 public:
 
     SpriteComponent() = default; //SpriteComponent(){} 와 같음.
@@ -19,6 +23,15 @@ public:
     {
         setTex(path);
     }
+
+    SpriteComponent(const char* path, int mFrames, int mSpeed)
+    {
+        animated = true;
+        frames = mFrames;
+        speed = mSpeed;
+        setTex(path);
+    }
+
     ~SpriteComponent() //clean memory
     {
         SDL_DestroyTexture(texture);
@@ -40,6 +53,10 @@ public:
 
     void update() override
     {   
+        if(animated)
+        {
+            srcRect.x = srcRect.w  * static_cast<int>((SDL_GetTicks()/speed)% frames);
+        }
         destRect.x = static_cast<int>(transform->position.x);
         destRect.y = static_cast<int>(transform->position.y);
         destRect.w = transform->width * transform->scale;

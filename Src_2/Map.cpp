@@ -1,6 +1,6 @@
 #include "Map.h"
 
-// int lv1_map[20][25] = {{0}};
+
 
 Map::Map()
 {
@@ -39,8 +39,7 @@ void Map::LoadMap(std::string path, int sizeX, int sizeY)
             mapFile.ignore();
         }
     }
-
-    mapFile.close();
+    
 }
 
 
