@@ -56,7 +56,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 
 	Map::LoadMap("map/map1.txt",mapTile_column, mapTile_row);
 	player.addComponent<TransformComponent>(SCALE*2); //default  = (x0,y0) = (0.0f,0.0f)
-	player.addComponent<SpriteComponent>("./ani/player_stand.png",2,200);
+	player.addComponent<SpriteComponent>("./ani/player_stand.png",2,ANI_SPEED);
 	player.addComponent<KeyboardController>();
 	player.addComponent<ColliderComponent>("player"); //tag
 	player.addGroup(groupPlayers);

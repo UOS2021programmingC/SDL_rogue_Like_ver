@@ -35,6 +35,7 @@
 #define SPEED_DEFAULT (3)  //entity 이동속도
 #define SCALE (1)           //draw scale
 
+#define ANI_SPEED  (200)
 
 
 #endif
