@@ -62,7 +62,7 @@ void Game::init(const char* title, int width, int height, bool fullscreen)
 	player.addGroup(groupPlayers);
 
 	wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,SCALE); // x,y,w,h,sc
-	wall.addComponent<SpriteComponent>("./assets/grass.png"); //src path
+	wall.addComponent<SpriteComponent>("./assets/grass.png",false); //src path
 	wall.addComponent<ColliderComponent>("wall"); //tag
 	wall.addGroup(groupMap);
 	}

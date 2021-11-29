@@ -15,13 +15,14 @@ private:
 
     bool animated = false;
     int frames = 0;
-    int speed = 100; //delay between frames.
+    int speed = ANI_SPEED; //delay between frames.
 
 public:
 
     int animIndex = 0;
-
     std::map<const char*, Animation> animations;
+
+    SDL_RendererFlip spriteFlip = SDL_FLIP_NONE;
 
     SpriteComponent() = default; //SpriteComponent(){} 와 같음.
     //Texture Switching 가능
@@ -81,7 +82,7 @@ public:
 
     void draw() override
     {
-        TextureManager::Draw(texture, srcRect, destRect);
+        TextureManager::Draw(texture, srcRect, destRect, spriteFlip);
     }
 
     void Play(const char* animName)

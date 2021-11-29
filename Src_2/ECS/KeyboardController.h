@@ -11,6 +11,7 @@ class KeyboardController : public Component
 public:
     TransformComponent *transform;
     SpriteComponent *sprite;
+    
     void init() override
     {
         transform = &entity->getComponent<TransformComponent>();
@@ -30,6 +31,7 @@ public:
                 case SDL_SCANCODE_A:
                     transform->velocity.x = -1;
                     sprite->Play("Walk");
+                    sprite->spriteFlip = SDL_FLIP_HORIZONTAL;
                     break;
                 case SDL_SCANCODE_D:
                     transform->velocity.x = 1;
@@ -54,6 +56,7 @@ public:
                 case SDL_SCANCODE_A:
                     transform->velocity.x = 0;
                     sprite->Play("Idle");
+                    sprite->spriteFlip = SDL_FLIP_NONE;
                     break;
                 case SDL_SCANCODE_D:
                     transform->velocity.x = 0;
