@@ -16,6 +16,11 @@
 #include <string>
 #include <fstream>
 
+#if 1
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h> 
+#endif
 
 #define PLAYER_SIZE (64)
 #define FPS (60)

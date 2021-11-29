@@ -27,7 +27,7 @@ enum groupLables : std::size_t
 	groupColiiders
 };
 
-static int mapArray[mapTile_row][mapTile_column];
+// static int mapArray[mapTile_row][mapTile_column];
 
 void Game::init(const char* title, int width, int height, bool fullscreen)
 {
