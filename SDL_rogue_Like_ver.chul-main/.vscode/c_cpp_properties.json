@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/jeong98/catkin_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/usr/include/**",
+                "${workspaceFolder}/Src_2",
+                "${workspaceFolder}/birchengine/Src"
+            ],
+            "name": "ROS"
+        }
+    ],
+    "version": 4
+}
