@@ -5,7 +5,6 @@
 // Released under the BSD License
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
-
 #pragma once
 #include "SDL2/SDL.h"
 #include <unordered_map>
