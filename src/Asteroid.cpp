@@ -12,6 +12,7 @@
 #include "Game.h"
 #include "Random.h"
 #include "CircleComponent.h"
+#include "defs.h"
 
 Asteroid::Asteroid(Game* game)
 	:Actor(game)
@@ -22,7 +23,9 @@ Asteroid::Asteroid(Game* game)
 		Vector2(1024.0f, 768.0f));
 	SetPosition(randPos);
 
-	SetHealth(2);
+	//STAT
+	SetHealth(ENEMY1_HEALTH);
+	SetDamage(ENEMY1_DAMAGE);
 
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 

@@ -31,6 +31,10 @@ public:
 	void AddAsteroid(class Asteroid* ast);
 	void RemoveAsteroid(class Asteroid* ast);
 	std::vector<class Asteroid*>& GetAsteroids() { return mAsteroids; }
+	
+	// std::vector<class Ship*>& GetShip() { return mmShip; }
+	class Ship* GetShip() {return mShip; }
+
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -59,4 +63,7 @@ private:
 	// Game-specific
 	class Ship* mShip; // Player's ship
 	std::vector<class Asteroid*> mAsteroids;
+	
+	
+	// std::vector<class Ship*> mmShip;
 };

@@ -9,8 +9,10 @@
 #include "Ship.h"
 #include "SpriteComponent.h"
 #include "InputComponent.h"
+#include "CircleComponent.h"
 #include "Game.h"
 #include "Laser.h"
+#include "defs.h"
 
 Ship::Ship(Game* game)
 	:Actor(game)
@@ -26,8 +28,16 @@ Ship::Ship(Game* game)
 	ic->SetBackKey(SDL_SCANCODE_S);
 	ic->SetClockwiseKey(SDL_SCANCODE_A);
 	ic->SetCounterClockwiseKey(SDL_SCANCODE_D);
-	ic->SetMaxForwardSpeed(300.0f);
+	ic->SetMaxForwardSpeed(MAX_SPEED_forward);
 	ic->SetMaxAngularSpeed(Math::TwoPi);
+
+	// Create a circle component (for collision)
+	mCircle = new CircleComponent(this);
+	mCircle->SetRadius(40.0f);
+
+	//STAT
+	SetHealth(PLAYER_HEALTH);
+	SetDamage(PLAYER_DAMAGE);
 }
 
 void Ship::UpdateActor(float deltaTime)
@@ -44,7 +54,7 @@ void Ship::ActorInput(const uint8_t* keyState)
 		laser->SetPosition(GetPosition());
 		laser->SetRotation(GetRotation());
 
-		// Reset laser cooldown (half second)
-		mLaserCooldown = 0.5f;
+		// Reset laser cooldown
+		mLaserCooldown = LASER_COOLDOWN;
 	}
 }

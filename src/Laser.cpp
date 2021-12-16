@@ -12,10 +12,11 @@
 #include "Game.h"
 #include "CircleComponent.h"
 #include "Asteroid.h"
+#include "defs.h"
 
 Laser::Laser(Game* game)
 	:Actor(game)
-	,mDeathTimer(1.0f)
+	,mDeathTimer(LASER_LIFE)
 {
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
@@ -28,6 +29,10 @@ Laser::Laser(Game* game)
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
 	mCircle->SetRadius(11.0f);
+
+	//STAT
+	SetDamage(PLAYER_DAMAGE);
+	
 }
 
 void Laser::UpdateActor(float deltaTime)
@@ -47,7 +52,7 @@ void Laser::UpdateActor(float deltaTime)
 			{
 				// The first asteroid we intersect with,
 				// set ourselves and the asteroid to dead
-				ast->SetHealth((ast->GetHealth())-1);
+				ast->SetHealth((ast->GetHealth())-GetDamage());
 				SetState(EDead);
 			}
 			if(ast->GetHealth() <= 0){

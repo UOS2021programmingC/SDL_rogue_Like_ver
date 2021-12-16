@@ -14,6 +14,7 @@
 #include "Ship.h"
 #include "Asteroid.h"
 #include "Random.h"
+#include "defs.h"
 
 Game::Game()
 :mWindow(nullptr)
@@ -166,7 +167,7 @@ void Game::LoadData()
 	mShip->SetRotation(Math::PiOver2);
 
 	// Create asteroids
-	const int numAsteroids = 20;
+	const int numAsteroids = NUM_ENEMY1;
 	for (int i = 0; i < numAsteroids; i++)
 	{
 		new Asteroid(this);

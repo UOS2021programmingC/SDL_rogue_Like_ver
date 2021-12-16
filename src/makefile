@@ -21,12 +21,12 @@ OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 # g++ `sdl2-config --cflags` -g -lefence -c OOO.c
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $<
-
+	
 # Step 2: make executable files and link libraries
 # g++ -o (object files) `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LDFLAGS)
-	
+	@mv $(OBJS) ./lib
 
 # clear all object files
 clean:
