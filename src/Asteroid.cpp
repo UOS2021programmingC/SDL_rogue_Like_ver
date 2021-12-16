@@ -22,11 +22,13 @@ Asteroid::Asteroid(Game* game)
 		Vector2(1024.0f, 768.0f));
 	SetPosition(randPos);
 
+	SetHealth(2);
+
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
-	sc->SetTexture(game->GetTexture("game/Assets/Asteroid.png"));
+	sc->SetTexture(game->GetTexture("./Assets/Asteroid.png"));
 
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);

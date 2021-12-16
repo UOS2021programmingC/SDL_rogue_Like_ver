@@ -19,7 +19,7 @@ Laser::Laser(Game* game)
 {
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
-	sc->SetTexture(game->GetTexture("./game/Assets/Laser.png"));
+	sc->SetTexture(game->GetTexture("./Assets/Laser.png"));
 
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
@@ -47,10 +47,13 @@ void Laser::UpdateActor(float deltaTime)
 			{
 				// The first asteroid we intersect with,
 				// set ourselves and the asteroid to dead
+				ast->SetHealth((ast->GetHealth())-1);
 				SetState(EDead);
+			}
+			if(ast->GetHealth() <= 0){
 				ast->SetState(EDead);
 				break;
-			}
+				}
 		}
 	}
 }
