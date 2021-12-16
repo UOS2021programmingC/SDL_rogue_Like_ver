@@ -32,7 +32,7 @@ bool Game::Initialize()
 		return false;
 	}
 	
-	mWindow = SDL_CreateWindow("Game Programming in C++ (Chapter 3)", 100, 100, 1024, 768, 0);
+	mWindow = SDL_CreateWindow("The road to A", 100, 100, 1024, 768, 0);
 	if (!mWindow)
 	{
 		SDL_Log("Failed to create window: %s", SDL_GetError());
@@ -121,7 +121,7 @@ void Game::UpdateGame()
 	mUpdatingActors = false;
 
 	// Move any pending actors to mActors
-	for (auto pending : mPendingActors)
+	for (auto pending : mPendingActors) //pending 에 mpendingActors를 하나하나씩 전해줌(범위기반 for loop)
 	{
 		mActors.emplace_back(pending);
 	}
