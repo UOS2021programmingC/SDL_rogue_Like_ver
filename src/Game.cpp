@@ -5,6 +5,10 @@
 // Released under the BSD License
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
+//업데이트 목록
+// 백그라운드 설정 및, 한번 클리어 시 백그라운드 변경 -설정 완료
+// 맵 변경을 위한 포탈 설정 중 - 설정 완료
+//포탈 충돌 감지 기능 추가 중 - 
 
 #include "Game.h"
 #include "SDL_image.h"
@@ -15,6 +19,8 @@
 #include "Asteroid.h"
 #include "Random.h"
 #include "defs.h"
+#include "BGSpriteComponent.h"
+#include "Portal.h"
 
 Game::Game()
 :mWindow(nullptr)
@@ -22,6 +28,7 @@ Game::Game()
 ,mIsRunning(true)
 ,mUpdatingActors(false)
 ,numEnemy(0)
+,PortalState(0)
 ,mDifficulty(1.0f)
 {
 	
@@ -118,14 +125,42 @@ void Game::UpdateGame()
 	//다 죽으면 다시소환
 	if (numEnemy <= 0)
 	{
-		mDifficulty *= 1.5f;
-		int numAsteroids = Random::GetIntRange((int)(3+mDifficulty),(int)(10+mDifficulty));
-		numEnemy += numAsteroids;
-		for (int i = 0; i < numAsteroids; i++)
-		{
-			new Asteroid(this);
+		if (PortalState<1)
+			new Portal(this);
+			PortalState++;
+		if (PortalState<0){
+
+			mDifficulty *= 1.5f;
+			int numAsteroids = Random::GetIntRange((int)(3+mDifficulty),(int)(10+mDifficulty));
+			numEnemy += numAsteroids;
+
+			//백그라운드 변경
+			for (int i = 0; i < numAsteroids; i++)
+			{
+				new Asteroid(this);
+			}
+			Actor* temp = new Actor(this);
+			temp->SetPosition(Vector2(512.0f, 384.0f));
+			// Create the "far back" background
+			BGSpriteComponent* bg = new BGSpriteComponent(temp);
+			bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+			std::vector<SDL_Texture*> bgtexs = {
+				GetTexture("Assets/Farback02.png"),
+				GetTexture("Assets/Farback02.png")
+			};
+			bg->SetBGTextures(bgtexs);
+			bg->SetScrollSpeed(0.0f);
+			// Create the closer background
+			bg = new BGSpriteComponent(temp, 50);
+			bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+			bgtexs = {
+				GetTexture("Assets/Stars.png"),
+				GetTexture("Assets/Stars.png")
+			};
+			bg->SetBGTextures(bgtexs);
+			bg->SetScrollSpeed(0.0f);
 		}
-	}
+		}
 
 	// Update all actors
 	mUpdatingActors = true;
@@ -189,7 +224,28 @@ void Game::LoadData()
 	{
 		new Asteroid(this);
 	}
-	
+	//변경부분 백그라운드 추가 - 후속으로 스테이지 변경 시 백그라운드 변경 예정 - 완료
+	// Create actor for the background (this doesn't need a subclass)
+	Actor* temp = new Actor(this);
+	temp->SetPosition(Vector2(512.0f, 384.0f));
+	// Create the "far back" background
+	BGSpriteComponent* bg = new BGSpriteComponent(temp);
+	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+	std::vector<SDL_Texture*> bgtexs = {
+		GetTexture("Assets/Farback01.png"),
+		GetTexture("Assets/Farback01.png")
+	};
+	bg->SetBGTextures(bgtexs);
+	bg->SetScrollSpeed(100.0f);
+	// Create the closer background
+	bg = new BGSpriteComponent(temp, 50);
+	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+	bgtexs = {
+		GetTexture("Assets/Stars.png"),
+		GetTexture("Assets/Stars.png")
+	};
+	bg->SetBGTextures(bgtexs);
+	bg->SetScrollSpeed(100.0f);	
 }
 
 void Game::UnloadData()
@@ -256,6 +312,22 @@ void Game::RemoveAsteroid(Asteroid* ast)
 		mAsteroids.erase(iter);
 	}
 }
+// 포탈 생성
+void Game::AddPortal(Portal* pot)
+{
+	mPortal.emplace_back(pot);
+}
+//포탈 삭제
+void Game::RemovePortal(Portal* pot)
+{
+	auto iter = std::find(mPortal.begin(),
+		mPortal.end(), pot);
+	if (iter != mPortal.end())
+	{
+		mPortal.erase(iter);
+	}
+}
+
 
 void Game::Shutdown()
 {

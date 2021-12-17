@@ -51,8 +51,6 @@ Asteroid::Asteroid(Game* game)
 
 void Asteroid::UpdateActor(float deltaTime)
 {
-	auto ship = GetGame()->GetShip();
-	
 	if (GetHealth() <= 0)
 	{
 		Item* item = new Item(GetGame());
@@ -60,14 +58,6 @@ void Asteroid::UpdateActor(float deltaTime)
 		item->SetRotation(GetRotation());
 		SetState(EDead);
 		GetGame()->numEnemy--;
-	}
-
-	// Do we intersect with an ship
-	if (Intersect(*mCircle, *(ship->GetCircle())))
-	{
-		// damage and disappear
-		ship->SetHealth((ship->GetHealth()) - GetDamage());
-		SetState(EDead);
 	}
 }
 

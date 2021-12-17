@@ -14,6 +14,7 @@
 #include "Laser.h"
 #include "defs.h"
 #include "Item.h"
+#include "Portal.h"
 
 Ship::Ship(Game* game)
 	:Actor(game)
@@ -45,6 +46,8 @@ Ship::Ship(Game* game)
 void Ship::UpdateActor(float deltaTime)
 {
 	mLaserCooldown -= deltaTime;
+	// Do we intersect with an asteroid?
+
 }
 
 void Ship::ActorInput(const uint8_t* keyState)
@@ -59,7 +62,6 @@ void Ship::ActorInput(const uint8_t* keyState)
 		// Set laser cooldown
 		mLaserCooldown = LASER_COOLDOWN - mCooldown;
 	}
-	
 	if (GetHealth() <=0)
 	{
 		SetState(EDead);
