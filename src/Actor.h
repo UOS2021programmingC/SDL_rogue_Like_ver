@@ -56,11 +56,11 @@ public:
 	void SetRotation(float rotation) { mRotation = rotation; }
 
 	// STAT Getter/setters
-	void SetHealth(int health) {mhealth = health;} 
-	void SetDamage(int damage) { mdamage = damage; }
+	void SetHealth(float health) {mhealth = health;} 
+	void SetDamage(float damage) { mdamage = damage; }
 	
-	int GetDamage(){return mdamage;}
-	int GetHealth() { return mhealth; }
+	float GetDamage(){return mdamage;}
+	float GetHealth() { return mhealth; }
 
 	Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
 
@@ -87,8 +87,8 @@ private:
 	float mRotation;
 
 	//CUSTOM stat
-	int mhealth;
-	int mdamage;
+	float mhealth;
+	float mdamage;
 
 	std::vector<class Component*> mComponents;
 	class Game* mGame;
