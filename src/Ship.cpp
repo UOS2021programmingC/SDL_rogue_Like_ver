@@ -48,7 +48,7 @@ void Ship::UpdateActor(float deltaTime)
 	mLaserCooldown -= deltaTime;
 	if (GetHealth() <= 0)
 	{
-		// SetState(EDead);
+		SetState(EDead);
 	}
 }
 

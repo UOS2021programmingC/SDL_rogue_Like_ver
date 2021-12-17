@@ -36,6 +36,7 @@ public:
 	float GetDiff() {return mDifficulty;}
 
 	int numEnemy;
+	// int numPlayer;
 	
 private:
 	void ProcessInput();

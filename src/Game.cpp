@@ -22,6 +22,7 @@ Game::Game()
 ,mIsRunning(true)
 ,mUpdatingActors(false)
 ,numEnemy(0)
+// ,numPlayer(1)
 ,mDifficulty(1.0f)
 {
 	
@@ -151,6 +152,10 @@ void Game::UpdateGame()
 			if(actor->GetName() == Actor::Enemy) //적 이면
 			{
 				numEnemy--; //적카운팅 감소
+			}
+			if(actor->GetName() == Actor::Player)
+			{
+				mIsRunning=false;
 			}
 			deadActors.emplace_back(actor);
 		}
