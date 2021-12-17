@@ -232,7 +232,7 @@ void Game::LoadData()
  * @param stage stage NUM
  */
 void Game::SetBackGround(class Actor* tmp , int stage)
-{	Actor* tmp;
+{	
 	tmp->SetState(Actor::EDead);
 	tmp->SetPosition(Vector2(512.0f, 384.0f));
 	// Create the "far back" background
