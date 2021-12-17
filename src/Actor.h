@@ -21,6 +21,13 @@ public:
 		EDead
 	};
 
+	enum Name
+	{
+		Player,
+		Enemy,
+		NoName
+	};
+
 	Actor(class Game* game);
 	virtual ~Actor();
 
@@ -57,6 +64,9 @@ public:
 	State GetState() const { return mState; }
 	void SetState(State state) { mState = state; }
 
+	Name GetName() const { return mName; }
+	void SetName(Name name) {mName = name; }
+
 	class Game* GetGame() { return mGame; }
 
 	
@@ -66,6 +76,7 @@ public:
 private:
 	// Actor's state
 	State mState;
+	Name mName;
 
 	// Transform
 	Vector2 mPosition;

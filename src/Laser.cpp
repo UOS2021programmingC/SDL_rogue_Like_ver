@@ -19,6 +19,7 @@ Laser::Laser(Game* game)
 	:Actor(game)
 	,mDeathTimer(LASER_LIFE)
 {
+	SetName(NoName);
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
 	sc->SetTexture(game->GetTexture("./Assets/Laser.png"));

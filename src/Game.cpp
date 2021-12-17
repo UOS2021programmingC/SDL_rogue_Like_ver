@@ -148,6 +148,10 @@ void Game::UpdateGame()
 	{
 		if (actor->GetState() == Actor::EDead)
 		{
+			if(actor->GetName() == Actor::Enemy) //적 이면
+			{
+				numEnemy--; //적카운팅 감소
+			}
 			deadActors.emplace_back(actor);
 		}
 	}

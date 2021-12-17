@@ -20,6 +20,7 @@ Asteroid::Asteroid(Game* game)
 	:Actor(game)
 	,mCircle(nullptr)
 {
+	SetName(Enemy);
 	// Initialize to random position/orientation
 	Vector2 randPos = Random::GetVector(Vector2::Zero,
 		Vector2(1024.0f, 768.0f));
@@ -51,13 +52,22 @@ Asteroid::Asteroid(Game* game)
 
 void Asteroid::UpdateActor(float deltaTime)
 {
-	if (GetHealth() <= 0)
+	auto mship = GetGame()->GetShip();
+	if (GetHealth() <= 0) //죽을 때
 	{
+		//아이템생성
 		Item* item = new Item(GetGame());
 		item->SetPosition(GetPosition());
 		item->SetRotation(GetRotation());
 		SetState(EDead);
-		GetGame()->numEnemy--;
+	}
+	//플레이어와 접촉 
+	if (Intersect(*mCircle, *(mship->GetCircle())))
+	{
+		// damage
+		mship->SetHealth((mship->GetHealth()) - GetDamage());
+		//사라짐
+		SetState(EDead);
 	}
 }
 

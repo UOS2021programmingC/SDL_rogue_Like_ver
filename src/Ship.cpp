@@ -20,6 +20,7 @@ Ship::Ship(Game* game)
 	,mLaserCooldown(0.8f)
 	,mCooldown(0.0f)
 {
+	SetName(Player);
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this, 150);
 	sc->SetTexture(game->GetTexture("./Assets/Ship.png"));
@@ -45,6 +46,10 @@ Ship::Ship(Game* game)
 void Ship::UpdateActor(float deltaTime)
 {
 	mLaserCooldown -= deltaTime;
+	if (GetHealth() <= 0)
+	{
+		// SetState(EDead);
+	}
 }
 
 void Ship::ActorInput(const uint8_t* keyState)
@@ -59,8 +64,5 @@ void Ship::ActorInput(const uint8_t* keyState)
 		// Set laser cooldown
 		mLaserCooldown = LASER_COOLDOWN - mCooldown;
 	}
-	if (GetHealth() <=0)
-	{
-		SetState(EDead);
-	}
+	
 }

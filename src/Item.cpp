@@ -13,7 +13,8 @@
 Item::Item(Game* game)
 	:Actor(game)
 	,mDeathTimer(5.0f)
-{	
+{
+	SetName(NoName);
 	//item state Random set
 	SetItemState((ITEM)(Random::GetIntRange(0,10)));
 	
