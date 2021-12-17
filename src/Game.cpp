@@ -149,13 +149,13 @@ void Game::UpdateGame()
 	{
 		if (actor->GetState() == Actor::EDead)
 		{
-			if(actor->GetName() == Actor::Enemy) //적 이면
+			if(actor->GetName() == Actor::Enemy) //적 사망
 			{
 				numEnemy--; //적카운팅 감소
 			}
-			if(actor->GetName() == Actor::Player)
+			if(actor->GetName() == Actor::Player) //player사망
 			{
-				mIsRunning=false;
+				mIsRunning=false; //게임종료
 			}
 			deadActors.emplace_back(actor);
 		}
