@@ -330,22 +330,6 @@ void Game::RemoveAsteroid(Asteroid* ast)
 		mAsteroids.erase(iter);
 	}
 }
-// 포탈 생성
-// void Game::AddPortal(Portal* pot)
-// {
-// 	mPortal.emplace_back(pot);
-// }
-// //포탈 삭제
-// void Game::RemovePortal(Portal* pot)
-// {
-// 	auto iter = std::find(mPortal.begin(),
-// 		mPortal.end(), pot);
-// 	if (iter != mPortal.end())
-// 	{
-// 		mPortal.erase(iter);
-// 	}
-// }
-
 
 void Game::Shutdown()
 {
