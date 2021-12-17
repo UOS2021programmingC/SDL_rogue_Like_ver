@@ -21,6 +21,8 @@ Game::Game()
 ,mRenderer(nullptr)
 ,mIsRunning(true)
 ,mUpdatingActors(false)
+,numEnemy(0)
+,mDifficulty(1.0f)
 {
 	
 }
@@ -113,6 +115,18 @@ void Game::UpdateGame()
 	}
 	mTicksCount = SDL_GetTicks();
 
+	//다 죽으면 다시소환
+	if (numEnemy <= 0)
+	{
+		mDifficulty *= 1.5f;
+		int numAsteroids = Random::GetIntRange((int)(3+mDifficulty),(int)(10+mDifficulty));
+		numEnemy += numAsteroids;
+		for (int i = 0; i < numAsteroids; i++)
+		{
+			new Asteroid(this);
+		}
+	}
+
 	// Update all actors
 	mUpdatingActors = true;
 	for (auto actor : mActors)
@@ -161,17 +175,21 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
+	
 	// Create player's ship
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(512.0f, 384.0f));
 	mShip->SetRotation(Math::PiOver2);
 
 	// Create asteroids
-	const int numAsteroids = Random::GetIntRange(7,25);
+	int numAsteroids = Random::GetIntRange(3,7);
+	numEnemy += numAsteroids;
+
 	for (int i = 0; i < numAsteroids; i++)
 	{
 		new Asteroid(this);
 	}
+	
 }
 
 void Game::UnloadData()

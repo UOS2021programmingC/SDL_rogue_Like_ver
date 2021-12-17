@@ -46,8 +46,10 @@ public:
 	
 	//STAT Getter/setters
 	void SetHealth(int health) {mhealth = health;}
+	void SettrueHealth(int health) { mhealth = health;}
 	int GetHealth(){return mhealth;}
-	void SetDamage(int damage) {mdamage = damage;}
+	void SetDamage(int damage) { mdamage = damage; }
+	void SettrueDamage(int damage) { mdamage = damage;}
 	int GetDamage(){return mdamage;}
 
 	Vector2 GetForward() const { return Vector2(Math::Cos(mRotation), -Math::Sin(mRotation)); }
@@ -57,7 +59,7 @@ public:
 
 	class Game* GetGame() { return mGame; }
 
-
+	
 	// Add/remove components
 	void AddComponent(class Component* component);
 	void RemoveComponent(class Component* component);
@@ -73,7 +75,7 @@ private:
 	//CUSTOM stat
 	int mhealth;
 	int mdamage;
-
+	float mDiff;
 
 	std::vector<class Component*> mComponents;
 	class Game* mGame;

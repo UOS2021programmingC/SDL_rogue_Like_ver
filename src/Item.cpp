@@ -16,6 +16,7 @@ Item::Item(Game* game)
 {	
 	//item state Random set
 	SetItemState((ITEM)(Random::GetIntRange(0,10)));
+	
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
 	switch(GetItemState())
@@ -36,7 +37,7 @@ Item::Item(Game* game)
 	
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(150.0f);
+	mc->SetForwardSpeed(80.0f);
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
@@ -58,17 +59,18 @@ void Item::UpdateActor(float deltaTime)
 	{	
 	    // Do we intersect with ship
         auto mship = GetGame()->GetShip();
-	
-		if (Intersect(*mCircle,*(mship->GetCircle())))
+		Laser *mlaser;
+
+			if (Intersect(*mCircle, *(mship->GetCircle())))
 		{
 			switch (GetItemState())
 			{
 			case Eatk:
-				mship->SetDamage(mship->GetDamage() + 1);
+				mship->SettrueDamage(mship->GetDamage() + 1);
 				SetState(EDead);
 				break;
 			case Ehealth:
-				mship->SetHealth(mship->GetHealth() + 1);
+				mship->SettrueHealth(mship->GetHealth() + 1);
 				SetState(EDead);
 				break;
 			case Espeed:

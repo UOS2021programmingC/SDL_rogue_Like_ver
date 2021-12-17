@@ -14,6 +14,7 @@
 #include "CircleComponent.h"
 #include "defs.h"
 #include "Item.h"
+#include "Ship.h"
 
 Asteroid::Asteroid(Game* game)
 	:Actor(game)
@@ -22,7 +23,9 @@ Asteroid::Asteroid(Game* game)
 	// Initialize to random position/orientation
 	Vector2 randPos = Random::GetVector(Vector2::Zero,
 		Vector2(1024.0f, 768.0f));
-	SetPosition(randPos);
+	if (randPos.x != GetGame()->GetShip()->GetPosition().x ||
+		randPos.y != GetGame()->GetShip()->GetPosition().y)
+		{SetPosition(randPos);}
 
 	//STAT
 	SetHealth(ENEMY1_HEALTH);
@@ -36,7 +39,7 @@ Asteroid::Asteroid(Game* game)
 
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(150.0f);
+	mc->SetForwardSpeed(150.0f*(GetGame()->GetDiff())*0.6f);
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
@@ -52,7 +55,9 @@ void Asteroid::UpdateActor(float deltaTime)
 	{
 		Item* item = new Item(GetGame());
 		item->SetPosition(GetPosition());
+		item->SetRotation(GetRotation());
 		SetState(EDead);
+		GetGame()->numEnemy--;
 	}
 }
 
