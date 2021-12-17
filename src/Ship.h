@@ -16,6 +16,9 @@ public:
 	void UpdateActor(float deltaTime) override;
 	void ActorInput(const uint8_t* keyState) override;
 	class CircleComponent* GetCircle() { return mCircle; }
+
+	void SetLaserCool(float cool) {mLaserCooldown = cool;}
+	float GetLaserCool() {return mLaserCooldown;}
 	
 private:
 	float mLaserCooldown;

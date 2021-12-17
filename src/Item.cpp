@@ -5,28 +5,43 @@
 #include "Game.h"
 #include "Random.h"
 #include "CircleComponent.h"
-#include "Ship.h"
 
+#include "Ship.h"
+#include "Laser.h"
 #include "defs.h"
 
 Item::Item(Game* game)
 	:Actor(game)
-	,mDeathTimer(2.0f)
-{
+	,mDeathTimer(5.0f)
+	,mItem(Eatk)
+{	
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
-	sc->SetTexture(game->GetTexture("./assets/item_ATK.png"));
-
+	switch(GetItemState())
+		{
+          case Eatk:
+            sc->SetTexture(game->GetTexture("./assets/item_ATK.png"));
+            break;
+          case Espeed:
+            sc->SetTexture(game->GetTexture("./assets/item_SPD.png"));
+            break;
+          case Ehealth:
+            sc->SetTexture(game->GetTexture("./assets/item_HP.png"));
+            break;
+          case Erapid:
+            sc->SetTexture(game->GetTexture("./assets/item_RANGE.png"));
+            break;
+        }
+	
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(800.0f);
+	mc->SetForwardSpeed(150.0f);
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
-	mCircle->SetRadius(11.0f);
+	mCircle-> SetRadius(10.0f);
 
 	//STAT
-	SetDamage(PLAYER_DAMAGE);
 	
 }
 
@@ -39,13 +54,33 @@ void Item::UpdateActor(float deltaTime)
 		SetState(EDead);
 	}
 	else
-	{
+	{	
 	    // Do we intersect with ship
         auto mship = GetGame()->GetShip();
-		if (Intersect(*mCircle, *(mship->GetCircle())))
+		if (Intersect(*mCircle,*(mship->GetCircle())))
 		{
-			mship->SetDamage(mship->GetDamage()+1);
-			SetState(EDead);
+			switch (GetItemState())
+			{
+			case Eatk:
+				mship->SetDamage(mship->GetDamage() + 1);
+				SetState(EDead);
+				break;
+			case Ehealth:
+				mship->SetDamage(mship->GetDamage() + 1);
+				SetState(EDead);
+				break;
+			case Espeed:
+				mship->SetDamage(mship->GetDamage() + 1);
+				SetState(EDead);
+				break;
+			case Erapid:
+				if (mship->GetLaserCool() > 0)
+				{
+					mship->SetLaserCool(mship->GetLaserCool() - 0.02f);
+				}
+				SetState(EDead);
+				break;
+			}
 		}
 	}
 }

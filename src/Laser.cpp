@@ -55,10 +55,6 @@ void Laser::UpdateActor(float deltaTime)
 				ast->SetHealth((ast->GetHealth())-GetDamage());
 				SetState(EDead);
 			}
-			if(ast->GetHealth() <= 0){
-				ast->SetState(EDead);
-				break;
-				}
 		}
 	}
 }

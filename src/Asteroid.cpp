@@ -13,6 +13,7 @@
 #include "Random.h"
 #include "CircleComponent.h"
 #include "defs.h"
+#include "Item.h"
 
 Asteroid::Asteroid(Game* game)
 	:Actor(game)
@@ -43,6 +44,16 @@ Asteroid::Asteroid(Game* game)
 
 	// Add to mAsteroids in game
 	game->AddAsteroid(this);
+}
+
+void Asteroid::UpdateActor(float deltaTime)
+{
+	if (GetHealth() <= 0)
+	{
+		Item* item = new Item(GetGame());
+		item->SetPosition(GetPosition());
+		SetState(EDead);
+	}
 }
 
 Asteroid::~Asteroid()

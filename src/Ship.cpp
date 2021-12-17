@@ -13,10 +13,11 @@
 #include "Game.h"
 #include "Laser.h"
 #include "defs.h"
+#include "Item.h"
 
 Ship::Ship(Game* game)
 	:Actor(game)
-	,mLaserCooldown(0.0f)
+	,mLaserCooldown(0.8f)
 {
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this, 150);
@@ -56,5 +57,9 @@ void Ship::ActorInput(const uint8_t* keyState)
 
 		// Reset laser cooldown
 		mLaserCooldown = LASER_COOLDOWN;
+	}
+	if (GetHealth() <=0)
+	{
+		SetState(EDead);
 	}
 }
