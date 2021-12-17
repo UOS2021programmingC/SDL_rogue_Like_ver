@@ -135,8 +135,8 @@ void Game::UpdateGame()
 		int numAsteroids = Random::GetIntRange(1, 1);
 		numEnemy += numAsteroids;
 		//백그라운드 변경+재소환
-		Actor *temp = new Actor(this);
-		SetBackGround(temp, 1);
+		Actor *temp2 = new Actor(this);
+		SetBackGround(temp2, 1);
 		for (int i = 0; i < numAsteroids; i++)
 		{
 			new Asteroid(this);
@@ -205,7 +205,6 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {
-	
 	// Create player's ship
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(512.0f, 384.0f));
@@ -222,7 +221,8 @@ void Game::LoadData()
 	//변경부분 백그라운드 추가 - 후속으로 스테이지 변경 시 백그라운드 변경 예정 - 완료
 	// Create actor for the background (this doesn't need a subclass)
 	Actor* temp = new Actor(this);
-	SetBackGround(temp,1);	
+	SetBackGround(temp,1);
+
 }
 
 /**
@@ -232,7 +232,8 @@ void Game::LoadData()
  * @param stage stage NUM
  */
 void Game::SetBackGround(class Actor* tmp , int stage)
-{
+{	Actor* tmp;
+	tmp->SetState(Actor::EDead);
 	tmp->SetPosition(Vector2(512.0f, 384.0f));
 	// Create the "far back" background
 	BGSpriteComponent *bg = new BGSpriteComponent(tmp);

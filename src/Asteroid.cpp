@@ -23,7 +23,7 @@ Asteroid::Asteroid(Game* game)
 	:Actor(game)
 	,mCircle(nullptr)
 {
-	SetScale(0.5f);
+	SetScale(0.7f);
 	SetName(Enemy);
 	// Initialize to random position/orientation
 	Vector2 randPos = Random::GetVector(Vector2::Zero,
