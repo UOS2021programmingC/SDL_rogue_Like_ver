@@ -59,6 +59,7 @@ void Ship::ActorInput(const uint8_t* keyState)
 		// Set laser cooldown
 		mLaserCooldown = LASER_COOLDOWN - mCooldown;
 	}
+	
 	if (GetHealth() <=0)
 	{
 		SetState(EDead);
