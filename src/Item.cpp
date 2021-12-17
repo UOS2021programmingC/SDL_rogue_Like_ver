@@ -1,4 +1,6 @@
-
+// Made by Chul 9&J teams
+// in C_programing project in Mechanical Informaion Engineering UOS, 2021.
+// ----------------------------------------------------------------
 #include "Item.h"
 #include "SpriteComponent.h"
 #include "MoveComponent.h"

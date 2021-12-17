@@ -1,14 +1,14 @@
 // ----------------------------------------------------------------
 // From Game Programming in C++ by Sanjay Madhav
 // Copyright (C) 2017 Sanjay Madhav. All rights reserved.
-// 
+//
 // Released under the BSD License
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
-//업데이트 목록
-// 백그라운드 설정 및, 한번 클리어 시 백그라운드 변경 -설정 완료
-// 맵 변경을 위한 포탈 설정 중 - 설정 완료
-//포탈 충돌 감지 기능 추가 중 - 
+// ----------------------------------------------------------------
+// Updated by Chul 9&J teams 
+// in C_programing project in Mechanical Informaion Engineering UOS, 2021.
+// ----------------------------------------------------------------
 
 #include "Game.h"
 #include "SDL_image.h"
@@ -185,10 +185,10 @@ void Game::UpdateGame()
 			switch(actor->GetName())
 			{
 				case Actor::Player :
-					mIsRunning = false; //게임종료
+					mIsRunning = false; //
 					break;
 				case Actor::Enemy :
-					numEnemy--; //적카운팅 감소
+					numEnemy--; //count enemy
 					break;
 				case Actor::RESETTER : 
 					SetPortalState(true);
