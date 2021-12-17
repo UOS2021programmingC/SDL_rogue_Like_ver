@@ -18,7 +18,7 @@ Item::Item(Game* game)
 {
 	SetName(NoName);
 	//item state Random set
-	SetItemState((ITEM)(Random::GetIntRange(0,10)));
+	SetItemState((ITEM)(Random::GetIntRange(0,8)));
 	
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
@@ -69,21 +69,21 @@ void Item::UpdateActor(float deltaTime)
 			switch (GetItemState())
 			{
 			case Eatk:
-				mship->SettrueDamage(mship->GetDamage() + 1);
+				mship->SetDamage(mship->GetDamage() + ITEM_ATK);
 				SetState(EDead);
 				break;
 			case Ehealth:
-				mship->SettrueHealth(mship->GetHealth() + 1);
+				mship->SetHealth(mship->GetHealth() + ITEM_HP);
 				SetState(EDead);
 				break;
 			case Espeed:
-				mship->GetInputComponent()->PlusMaxForwardSpeed(30.0f);
+				mship->GetInputComponent()->PlusMaxForwardSpeed(ITEM_SPD);
 				SetState(EDead);
 				break;
 			case Erapid:
 				if (mship->GetLaserCool() < LASER_COOLDOWN)
 				{
-					mship->SetLaserCool(mship->GetLaserCool() + 0.02f);
+					mship->SetLaserCool(mship->GetLaserCool() + ITEM_RPD);
 				}
 				SetState(EDead);
 				break;

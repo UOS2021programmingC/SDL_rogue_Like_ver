@@ -20,7 +20,7 @@
 
 Ship::Ship(Game* game)
 	:Actor(game)
-	,mLaserCooldown(0.8f)
+	,mLaserCooldown(LASER_COOLDOWN)
 	,mCooldown(0.0f)
 {
 	SetName(Player);
@@ -35,7 +35,7 @@ Ship::Ship(Game* game)
 	ic->SetClockwiseKey(SDL_SCANCODE_A);
 	ic->SetCounterClockwiseKey(SDL_SCANCODE_D);
 	ic->SetMaxForwardSpeed(MAX_SPEED_forward);
-	ic->SetMaxAngularSpeed(Math::TwoPi);
+	ic->SetMaxAngularSpeed(Math::TwoPi*1.5f);
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
@@ -67,7 +67,7 @@ void Ship::ActorInput(const uint8_t* keyState)
 		laser->SetRotation(GetRotation());
 
 		// Set laser cooldown
-		mLaserCooldown = LASER_COOLDOWN - mCooldown;
+		mLaserCooldown = LASER_COOLDOWN- mCooldown;
 	}
 	if (GetHealth() <=0)
 	{

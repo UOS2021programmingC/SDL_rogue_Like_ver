@@ -23,6 +23,7 @@ Asteroid::Asteroid(Game* game)
 	:Actor(game)
 	,mCircle(nullptr)
 {
+	SetScale(0.5f);
 	SetName(Enemy);
 	// Initialize to random position/orientation
 	Vector2 randPos = Random::GetVector(Vector2::Zero,
@@ -32,25 +33,34 @@ Asteroid::Asteroid(Game* game)
 		{SetPosition(randPos);}
 
 	//STAT
-	SetHealth(ENEMY1_HEALTH);
-	SetDamage(ENEMY1_DAMAGE);
+		float Diff;
+		// game의 난이도 가져옴
+		if(((Diff= GetGame()->GetDiff())<1))
+		{
+			Diff = 1.0f; //최소한의 난도sale
+		}
+		//난이도에 따라 체력, 공격력, 속도가 달라짐
+		SetHealth(ENEMY1_HEALTH*Diff*0.3);
+		SetDamage(ENEMY1_DAMAGE*Diff*0.3);
 
-	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
+		SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
-	// Create a sprite component
-	SpriteComponent* sc = new SpriteComponent(this);
-	sc->SetTexture(game->GetTexture("./Assets/Asteroid.png"));
+		// Create a sprite component
+		SpriteComponent *sc = new SpriteComponent(this);
+		
+		sc->SetTexture(game->GetTexture("./Assets/Asteroid.png"));
 
-	// Create a move component, and set a forward speed
-	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(150.0f*(GetGame()->GetDiff())*0.6f);
+		// Create a move component, and set a forward speed
+		MoveComponent *mc = new MoveComponent(this);
+		float fspeed = Random::GetFloatRange(50.0f,150.0f);
+		mc->SetForwardSpeed(fspeed * Diff*0.3);
 
-	// Create a circle component (for collision)
-	mCircle = new CircleComponent(this);
-	mCircle->SetRadius(40.0f);
+		// Create a circle component (for collision)
+		mCircle = new CircleComponent(this);
+		mCircle->SetRadius(40.0f);
 
-	// Add to mAsteroids in game
-	game->AddAsteroid(this);
+		// Add to mAsteroids in game
+		game->AddAsteroid(this);
 }
 
 void Asteroid::UpdateActor(float deltaTime)

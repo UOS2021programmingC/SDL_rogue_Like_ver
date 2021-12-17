@@ -28,7 +28,7 @@ Game::Game()
 ,mIsRunning(true)
 ,mUpdatingActors(false)
 ,numEnemy(0)
-,mDifficulty(1.0f)
+,mDifficulty(1)
 {
 	
 }
@@ -122,34 +122,17 @@ void Game::UpdateGame()
 	mTicksCount = SDL_GetTicks();
 
 	//다 죽고, 포탈이 없을때
-	if (numEnemy <= 0 && mActivePortal ==false)
+	if (numEnemy <= 0)
 	{
 		new Portal(this);
-		// temp->SetPosition(Vector2(512.0f, 384.0f));
-		// // Create the "far back" background
-		// BGSpriteComponent* bg = new BGSpriteComponent(temp);
-		// bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-		// std::vector<SDL_Texture*> bgtexs = {
-		// 	GetTexture("Assets/Farback02.png"),
-		// 	GetTexture("Assets/Farback02.png")
-		// };
-		// bg->SetBGTextures(bgtexs);
-		// bg->SetScrollSpeed(100.0f);
-		// // Create the closer background
-		// bg = new BGSpriteComponent(temp, 50);
-		// bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-		// bgtexs = {
-		// 	GetTexture("Assets/Stars.png")
-		// 	// ,GetTexture("Assets/Stars.png")
-		// };
-		// bg->SetBGTextures(bgtexs);
-		// bg->SetScrollSpeed(100.0f);
 	}
 	//포탈활성화
 	if (mActivePortal == true)
 	{
-		mDifficulty *= 1.5f;
-		int numAsteroids = Random::GetIntRange((int)(3 + mDifficulty), (int)(10 + mDifficulty));
+		//난이도에따라 생성되는 적의 수의 범위가 달라진다.
+		mDifficulty += 1;
+		// int numAsteroids = Random::GetIntRange((int)(3 + mDifficulty*0.5), (int)(5+mDifficulty*0.5));
+		int numAsteroids = Random::GetIntRange(1, 1);
 		numEnemy += numAsteroids;
 		//백그라운드 변경+재소환
 		Actor *temp = new Actor(this);
@@ -185,6 +168,7 @@ void Game::UpdateGame()
 			switch(actor->GetName())
 			{
 				case Actor::Player :
+					SDL_Log("Player Dead!");
 					mIsRunning = false; //
 					break;
 				case Actor::Enemy :
@@ -228,7 +212,7 @@ void Game::LoadData()
 	mShip->SetRotation(Math::PiOver2);
 
 	// Create asteroids
-	int numAsteroids = Random::GetIntRange(3,7);
+	int numAsteroids = Random::GetIntRange(1,1);
 	numEnemy += numAsteroids;
 	for (int i = 0; i < numAsteroids; i++)
 	{

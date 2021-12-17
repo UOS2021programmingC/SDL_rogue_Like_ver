@@ -31,6 +31,7 @@ public:
 	void SetMaxForwardSpeed(float speed) { mMaxForwardSpeed = speed; }
 	void PlusMaxForwardSpeed(float speed) { mMaxForwardSpeed += speed; }
 	void SetMaxAngularSpeed(float speed) { mMaxAngularSpeed = speed; }
+	void PlusMaxAngularSpeed(float speed) { mMaxAngularSpeed += speed; }
 	void SetForwardKey(int key) { mForwardKey = key; }
 	void SetBackKey(int key) { mBackKey = key; }
 	void SetClockwiseKey(int key) { mClockwiseKey = key; }
