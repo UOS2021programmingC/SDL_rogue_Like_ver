@@ -72,9 +72,6 @@ private:
 	class Ship *mShip; // Player's ship
 	std::vector<class Asteroid*> mAsteroids;
 
-	// class Portal *mPortal; 
-	// // std::vector<class Portal*> mPortal;
-
 	int mDifficulty;
 	bool mActivePortal;
 };

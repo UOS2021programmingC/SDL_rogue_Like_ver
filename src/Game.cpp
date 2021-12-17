@@ -233,7 +233,6 @@ void Game::LoadData()
  */
 void Game::SetBackGround(class Actor* tmp , int stage)
 {	
-	tmp->SetState(Actor::EDead);
 	tmp->SetPosition(Vector2(512.0f, 384.0f));
 	// Create the "far back" background
 	BGSpriteComponent *bg = new BGSpriteComponent(tmp);
