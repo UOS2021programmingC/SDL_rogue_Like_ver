@@ -15,12 +15,16 @@ public:
 
 	void UpdateActor(float deltaTime) override;
 	void ActorInput(const uint8_t* keyState) override;
-	class CircleComponent* GetCircle() { return mCircle; }
 
-	void SetLaserCool(float cool) {mLaserCooldown = cool;}
-	float GetLaserCool() {return mLaserCooldown;}
+	class CircleComponent* GetCircle() { return mCircle; }
+	class InputComponent* GetInputComponent() { return ic; }
+	
+	void SetLaserCool(float cool) {mCooldown = cool;}
+	float GetLaserCool() {return mCooldown;}
 	
 private:
 	float mLaserCooldown;
+	float mCooldown;
 	class CircleComponent* mCircle;
+	class InputComponent* ic;
 };

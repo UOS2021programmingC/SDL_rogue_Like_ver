@@ -5,7 +5,7 @@
 #include "Game.h"
 #include "Random.h"
 #include "CircleComponent.h"
-
+#include "InputComponent.h"
 #include "Ship.h"
 #include "Laser.h"
 #include "defs.h"
@@ -13,8 +13,9 @@
 Item::Item(Game* game)
 	:Actor(game)
 	,mDeathTimer(5.0f)
-	,mItem(Eatk)
 {	
+	//item state Random set
+	SetItemState((ITEM)(Random::GetIntRange(0,10)));
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
 	switch(GetItemState())
@@ -57,6 +58,7 @@ void Item::UpdateActor(float deltaTime)
 	{	
 	    // Do we intersect with ship
         auto mship = GetGame()->GetShip();
+	
 		if (Intersect(*mCircle,*(mship->GetCircle())))
 		{
 			switch (GetItemState())
@@ -66,17 +68,17 @@ void Item::UpdateActor(float deltaTime)
 				SetState(EDead);
 				break;
 			case Ehealth:
-				mship->SetDamage(mship->GetDamage() + 1);
+				mship->SetHealth(mship->GetHealth() + 1);
 				SetState(EDead);
 				break;
 			case Espeed:
-				mship->SetDamage(mship->GetDamage() + 1);
+				mship->GetInputComponent()->PlusMaxForwardSpeed(30.0f);
 				SetState(EDead);
 				break;
 			case Erapid:
-				if (mship->GetLaserCool() > 0)
+				if (mship->GetLaserCool() < LASER_COOLDOWN)
 				{
-					mship->SetLaserCool(mship->GetLaserCool() - 0.02f);
+					mship->SetLaserCool(mship->GetLaserCool() + 0.02f);
 				}
 				SetState(EDead);
 				break;

@@ -12,6 +12,7 @@
 #include "Game.h"
 #include "CircleComponent.h"
 #include "Asteroid.h"
+#include "Ship.h"
 #include "defs.h"
 
 Laser::Laser(Game* game)
@@ -50,9 +51,9 @@ void Laser::UpdateActor(float deltaTime)
 		{
 			if (Intersect(*mCircle, *(ast->GetCircle())))
 			{
-				// The first asteroid we intersect with,
-				// set ourselves and the asteroid to dead
-				ast->SetHealth((ast->GetHealth())-GetDamage());
+				// damage
+				auto ship = GetGame()->GetShip();
+				ast->SetHealth((ast->GetHealth()) - ship->GetDamage());
 				SetState(EDead);
 			}
 		}
