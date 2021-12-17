@@ -4,7 +4,6 @@
 #define PLAYER_HEALTH 5
 #define PLAYER_DAMAGE 1
 
-#define NUM_ENEMY1 10
 #define ENEMY1_HEALTH 2
 #define ENEMY1_DAMAGE 1
 

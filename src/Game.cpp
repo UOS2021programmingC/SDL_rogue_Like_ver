@@ -167,7 +167,7 @@ void Game::LoadData()
 	mShip->SetRotation(Math::PiOver2);
 
 	// Create asteroids
-	const int numAsteroids = NUM_ENEMY1;
+	const int numAsteroids = Random::GetIntRange(7,25);
 	for (int i = 0; i < numAsteroids; i++)
 	{
 		new Asteroid(this);
