@@ -45,8 +45,8 @@ public:
 	void SetRotation(float rotation) { mRotation = rotation; }
 	
 	//STAT Getter/setters
-	void SetHealth(int health) {mhealth = health;}
-	void SettrueHealth(int health) { mhealth = health;}
+	void SetHealth(int health) {mhealth = health;} //난도영향받음
+	void SettrueHealth(int health) { mhealth = health;} //난도영향없음
 	int GetHealth(){return mhealth;}
 	void SetDamage(int damage) { mdamage = damage; }
 	void SettrueDamage(int damage) { mdamage = damage;}
