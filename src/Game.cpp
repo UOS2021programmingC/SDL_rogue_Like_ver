@@ -241,10 +241,10 @@ void Game::LoadData()
 	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
 	std::vector<SDL_Texture*> bgtexs = {
 		GetTexture("Assets/Farback01.png"),
-		GetTexture("Assets/Farback01.png")
+		GetTexture("Assets/Farback02.png")
 	};
 	bg->SetBGTextures(bgtexs);
-	bg->SetScrollSpeed(100.0f);
+	bg->SetScrollSpeed(-50.0f);
 	// Create the closer background
 	bg = new BGSpriteComponent(temp, 50);
 	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
@@ -253,7 +253,7 @@ void Game::LoadData()
 		GetTexture("Assets/Stars.png")
 	};
 	bg->SetBGTextures(bgtexs);
-	bg->SetScrollSpeed(100.0f);	
+	bg->SetScrollSpeed(-50.0f);	
 }
 
 void Game::UnloadData()

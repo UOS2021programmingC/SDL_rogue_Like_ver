@@ -47,15 +47,12 @@ Ship::Ship(Game* game)
 void Ship::UpdateActor(float deltaTime)
 {
 	mLaserCooldown -= deltaTime;
-<<<<<<< HEAD
 	if (GetHealth() <= 0)
 	{
 		SetState(EDead);
 	}
-=======
 	// Do we intersect with an asteroid?
 
->>>>>>> ac4654fef133c99ed68c30485f4aad01bc41b87f
 }
 
 void Ship::ActorInput(const uint8_t* keyState)

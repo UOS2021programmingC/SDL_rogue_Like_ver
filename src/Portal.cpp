@@ -19,7 +19,6 @@ Portal::Portal(Game* game)
 		randPos.y != GetGame()->GetShip()->GetPosition().y)
 		{SetPosition(randPos);}
 
-
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this);
 	sc->SetTexture(game->GetTexture("./Assets/Portal.png"));
@@ -43,7 +42,7 @@ void Portal::UpdateActor(float deltaTime)
 	}
     else
     {
-    	auto pot = GetGame()->GetPortal();
+    	for(auto pot : GetGame()->GetPortal()){
     	if (Intersect(*mCircle, *(pot->GetCircle())))
     	{
 	    	// damage
@@ -51,6 +50,7 @@ void Portal::UpdateActor(float deltaTime)
     		pot->SetHealth((pot->GetHealth()) - ship->GetDamage());
 	    	SetState(EDead);
 	    }
+		}
     }    
 }
 Portal::~Portal()
