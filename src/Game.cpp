@@ -28,7 +28,6 @@ Game::Game()
 ,mIsRunning(true)
 ,mUpdatingActors(false)
 ,numEnemy(0)
-,PortalState(0)
 ,mDifficulty(1.0f)
 {
 	
@@ -63,7 +62,7 @@ bool Game::Initialize()
 	}
 
 	Random::Init();
-
+	SetPortalState(false);
 	LoadData();
 
 	mTicksCount = SDL_GetTicks();
@@ -122,46 +121,46 @@ void Game::UpdateGame()
 	}
 	mTicksCount = SDL_GetTicks();
 
-	//다 죽으면 다시소환
-	if (numEnemy <= 0)
+	//다 죽고, 포탈이 없을때
+	if (numEnemy <= 0 && mActivePortal ==false)
 	{
-		if (PortalState<1)
-			new Portal(this);
-			PortalState++;
-		if (PortalState<0){
-
-			mDifficulty *= 1.5f;
-			int numAsteroids = Random::GetIntRange((int)(3+mDifficulty),(int)(10+mDifficulty));
-			numEnemy += numAsteroids;
-
-			//백그라운드 변경
-			for (int i = 0; i < numAsteroids; i++)
-			{
-				new Asteroid(this);
-			}
-			Actor* temp = new Actor(this);
-			temp->SetPosition(Vector2(512.0f, 384.0f));
-			// Create the "far back" background
-			BGSpriteComponent* bg = new BGSpriteComponent(temp);
-			bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-			std::vector<SDL_Texture*> bgtexs = {
-				GetTexture("Assets/Farback02.png"),
-				GetTexture("Assets/Farback02.png")
-			};
-			bg->SetBGTextures(bgtexs);
-			bg->SetScrollSpeed(0.0f);
-			// Create the closer background
-			bg = new BGSpriteComponent(temp, 50);
-			bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-			bgtexs = {
-				GetTexture("Assets/Stars.png"),
-				GetTexture("Assets/Stars.png")
-			};
-			bg->SetBGTextures(bgtexs);
-			bg->SetScrollSpeed(0.0f);
+		new Portal(this);
+		// temp->SetPosition(Vector2(512.0f, 384.0f));
+		// // Create the "far back" background
+		// BGSpriteComponent* bg = new BGSpriteComponent(temp);
+		// bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+		// std::vector<SDL_Texture*> bgtexs = {
+		// 	GetTexture("Assets/Farback02.png"),
+		// 	GetTexture("Assets/Farback02.png")
+		// };
+		// bg->SetBGTextures(bgtexs);
+		// bg->SetScrollSpeed(100.0f);
+		// // Create the closer background
+		// bg = new BGSpriteComponent(temp, 50);
+		// bg->SetScreenSize(Vector2(1024.0f, 768.0f));
+		// bgtexs = {
+		// 	GetTexture("Assets/Stars.png")
+		// 	// ,GetTexture("Assets/Stars.png")
+		// };
+		// bg->SetBGTextures(bgtexs);
+		// bg->SetScrollSpeed(100.0f);
+	}
+	//포탈활성화
+	if (mActivePortal == true)
+	{
+		mDifficulty *= 1.5f;
+		int numAsteroids = Random::GetIntRange((int)(3 + mDifficulty), (int)(10 + mDifficulty));
+		numEnemy += numAsteroids;
+		//백그라운드 변경+재소환
+		Actor *temp = new Actor(this);
+		SetBackGround(temp, 1);
+		for (int i = 0; i < numAsteroids; i++)
+		{
+			new Asteroid(this);
 		}
-		}
-
+		
+		SetPortalState(false);
+	}
 	// Update all actors
 	mUpdatingActors = true;
 	for (auto actor : mActors)
@@ -171,7 +170,7 @@ void Game::UpdateGame()
 	mUpdatingActors = false;
 
 	// Move any pending actors to mActors
-	for (auto pending : mPendingActors) //pending 에 mpendingActors를 하나하나씩 전해줌(범위기반 for loop)
+	for (auto pending : mPendingActors) 
 	{
 		mActors.emplace_back(pending);
 	}
@@ -183,13 +182,17 @@ void Game::UpdateGame()
 	{
 		if (actor->GetState() == Actor::EDead)
 		{
-			if(actor->GetName() == Actor::Enemy) //적 사망
+			switch(actor->GetName())
 			{
-				numEnemy--; //적카운팅 감소
-			}
-			if(actor->GetName() == Actor::Player) //player사망
-			{
-				mIsRunning=false; //게임종료
+				case Actor::Player :
+					mIsRunning = false; //게임종료
+					break;
+				case Actor::Enemy :
+					numEnemy--; //적카운팅 감소
+					break;
+				case Actor::RESETTER : 
+					SetPortalState(true);
+				break;
 			}
 			deadActors.emplace_back(actor);
 		}
@@ -227,33 +230,56 @@ void Game::LoadData()
 	// Create asteroids
 	int numAsteroids = Random::GetIntRange(3,7);
 	numEnemy += numAsteroids;
-
 	for (int i = 0; i < numAsteroids; i++)
 	{
 		new Asteroid(this);
 	}
+
 	//변경부분 백그라운드 추가 - 후속으로 스테이지 변경 시 백그라운드 변경 예정 - 완료
 	// Create actor for the background (this doesn't need a subclass)
 	Actor* temp = new Actor(this);
-	temp->SetPosition(Vector2(512.0f, 384.0f));
+	SetBackGround(temp,1);	
+}
+
+/**
+ * @brief Set the Back Ground object
+ * 
+ * @param tmp  Class Actor*
+ * @param stage stage NUM
+ */
+void Game::SetBackGround(class Actor* tmp , int stage)
+{
+	tmp->SetPosition(Vector2(512.0f, 384.0f));
 	// Create the "far back" background
-	BGSpriteComponent* bg = new BGSpriteComponent(temp);
+	BGSpriteComponent *bg = new BGSpriteComponent(tmp);
+	BGSpriteComponent *bg2 = new BGSpriteComponent(tmp,50);
 	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-	std::vector<SDL_Texture*> bgtexs = {
-		GetTexture("Assets/Farback01.png"),
-		GetTexture("Assets/Farback02.png")
-	};
+	bg2->SetScreenSize(Vector2(1024.0f, 768.0f));
+	std::vector<SDL_Texture *> bgtexs;
+	std::vector<SDL_Texture *> bgtexs2;
+	switch (stage)
+	{
+	case 1:
+		bgtexs = {
+			tmp->GetGame()->GetTexture("Assets/Farback01.png"),
+			tmp->GetGame()->GetTexture("Assets/Farback02.png")};
+		bgtexs2 = {
+			tmp->GetGame()->GetTexture("Assets/Stars.png"),
+			tmp->GetGame()->GetTexture("Assets/Stars.png")};
+		break;
+	case 2:
+		bgtexs = {
+			tmp->GetGame()->GetTexture("Assets/Farback01.png"),
+			tmp->GetGame()->GetTexture("Assets/Farback02.png")};
+		bgtexs2 = {
+			tmp->GetGame()->GetTexture("Assets/Stars.png"),
+			tmp->GetGame()->GetTexture("Assets/Stars.png")};
+		break;
+	}
 	bg->SetBGTextures(bgtexs);
 	bg->SetScrollSpeed(-50.0f);
-	// Create the closer background
-	bg = new BGSpriteComponent(temp, 50);
-	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-	bgtexs = {
-		GetTexture("Assets/Stars.png"),
-		GetTexture("Assets/Stars.png")
-	};
-	bg->SetBGTextures(bgtexs);
-	bg->SetScrollSpeed(-50.0f);	
+	bg2->SetBGTextures(bgtexs2);
+	bg2->SetScrollSpeed(-50.0f);
 }
 
 void Game::UnloadData()
@@ -321,20 +347,20 @@ void Game::RemoveAsteroid(Asteroid* ast)
 	}
 }
 // 포탈 생성
-void Game::AddPortal(Portal* pot)
-{
-	mPortal.emplace_back(pot);
-}
-//포탈 삭제
-void Game::RemovePortal(Portal* pot)
-{
-	auto iter = std::find(mPortal.begin(),
-		mPortal.end(), pot);
-	if (iter != mPortal.end())
-	{
-		mPortal.erase(iter);
-	}
-}
+// void Game::AddPortal(Portal* pot)
+// {
+// 	mPortal.emplace_back(pot);
+// }
+// //포탈 삭제
+// void Game::RemovePortal(Portal* pot)
+// {
+// 	auto iter = std::find(mPortal.begin(),
+// 		mPortal.end(), pot);
+// 	if (iter != mPortal.end())
+// 	{
+// 		mPortal.erase(iter);
+// 	}
+// }
 
 
 void Game::Shutdown()

@@ -24,25 +24,27 @@ public:
 
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
-	
+
+	void SetBackGround(class Actor* tmp,int stage);
+
 	SDL_Texture* GetTexture(const std::string& fileName);
 
 
 	//포탈 추가
-	void AddPortal(class Portal* pot);
-	void RemovePortal(class Portal* pot);
-	std::vector<class Portal*>& GetPortal() { return mPortal; }
+	// void AddPortal(class Portal* pot);
+	// void RemovePortal(class Portal* pot);
+	// std::vector<class Portal*>& GetPortal() { return mPortal; }
 	// Game-specific (add/remove asteroid)
 	void AddAsteroid(class Asteroid* ast);
 	void RemoveAsteroid(class Asteroid* ast);
 	std::vector<class Asteroid*>& GetAsteroids() { return mAsteroids; }
-	
+
 	class Ship* GetShip() {return mShip; }
 	float GetDiff() {return mDifficulty;}
+	// class Portal* GetPortal() { return mPortal; }
 
+	void SetPortalState(bool value) { mActivePortal = value; }
 	int numEnemy;
-	// int numPlayer;
-	int PortalState;
 	
 private:
 	void ProcessInput();
@@ -70,9 +72,12 @@ private:
 	bool mUpdatingActors;
 
 	// Game-specific
-	class Ship* mShip; // Player's ship
+	class Ship *mShip; // Player's ship
 	std::vector<class Asteroid*> mAsteroids;
-	std::vector<class Portal*> mPortal;
+
+	// class Portal *mPortal; 
+	// // std::vector<class Portal*> mPortal;
 
 	float mDifficulty;
+	bool mActivePortal;
 };

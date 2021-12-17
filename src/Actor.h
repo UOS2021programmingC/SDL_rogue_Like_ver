@@ -25,7 +25,8 @@ public:
 	{
 		Player,
 		Enemy,
-		NoName
+		NoName,
+		RESETTER
 	};
 
 	Actor(class Game* game);
