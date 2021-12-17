@@ -30,6 +30,7 @@ Game::Game()
 ,numEnemy(0)
 ,PortalState(0)
 ,mDifficulty(1.0f)
+,MapChange(0)
 {
 	
 }
@@ -125,11 +126,13 @@ void Game::UpdateGame()
 	//다 죽으면 다시소환
 	if (numEnemy <= 0)
 	{
-		if (PortalState<1)
+		if (PortalState<=0)
+		{
 			new Portal(this);
 			PortalState++;
-		if (PortalState<0){
-
+		}
+		else if (MapChange>0)
+		{
 			mDifficulty *= 1.5f;
 			int numAsteroids = Random::GetIntRange((int)(3+mDifficulty),(int)(10+mDifficulty));
 			numEnemy += numAsteroids;
@@ -159,8 +162,10 @@ void Game::UpdateGame()
 			};
 			bg->SetBGTextures(bgtexs);
 			bg->SetScrollSpeed(0.0f);
+			MapChange--;
+			PortalState--;
 		}
-		}
+	}
 
 	// Update all actors
 	mUpdatingActors = true;
@@ -183,14 +188,6 @@ void Game::UpdateGame()
 	{
 		if (actor->GetState() == Actor::EDead)
 		{
-			if(actor->GetName() == Actor::Enemy) //적 사망
-			{
-				numEnemy--; //적카운팅 감소
-			}
-			if(actor->GetName() == Actor::Player) //player사망
-			{
-				mIsRunning=false; //게임종료
-			}
 			deadActors.emplace_back(actor);
 		}
 	}
@@ -244,7 +241,7 @@ void Game::LoadData()
 		GetTexture("Assets/Farback01.png")
 	};
 	bg->SetBGTextures(bgtexs);
-	bg->SetScrollSpeed(100.0f);
+	bg->SetScrollSpeed(0.0f);
 	// Create the closer background
 	bg = new BGSpriteComponent(temp, 50);
 	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
@@ -253,7 +250,7 @@ void Game::LoadData()
 		GetTexture("Assets/Stars.png")
 	};
 	bg->SetBGTextures(bgtexs);
-	bg->SetScrollSpeed(100.0f);	
+	bg->SetScrollSpeed(0.0f);	
 }
 
 void Game::UnloadData()

@@ -41,11 +41,8 @@ public:
 	float GetDiff() {return mDifficulty;}
 
 	int numEnemy;
-<<<<<<< HEAD
-	// int numPlayer;
-=======
 	int PortalState;
->>>>>>> ac4654fef133c99ed68c30485f4aad01bc41b87f
+	int MapChange;
 	
 private:
 	void ProcessInput();

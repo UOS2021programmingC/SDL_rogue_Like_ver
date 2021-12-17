@@ -21,7 +21,6 @@ Ship::Ship(Game* game)
 	,mLaserCooldown(0.8f)
 	,mCooldown(0.0f)
 {
-	SetName(Player);
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this, 150);
 	sc->SetTexture(game->GetTexture("./Assets/Ship.png"));
@@ -47,15 +46,6 @@ Ship::Ship(Game* game)
 void Ship::UpdateActor(float deltaTime)
 {
 	mLaserCooldown -= deltaTime;
-<<<<<<< HEAD
-	if (GetHealth() <= 0)
-	{
-		SetState(EDead);
-	}
-=======
-	// Do we intersect with an asteroid?
-
->>>>>>> ac4654fef133c99ed68c30485f4aad01bc41b87f
 }
 
 void Ship::ActorInput(const uint8_t* keyState)
@@ -73,5 +63,19 @@ void Ship::ActorInput(const uint8_t* keyState)
 	if (GetHealth() <=0)
 	{
 		SetState(EDead);
+	}
+	else
+	{
+	// Do we intersect with an asteroid?
+	for (auto pot : GetGame()->GetPortal())
+	{
+		if (Intersect(*mCircle, *(pot->GetCircle())))
+		{
+			// damage
+			auto ship = GetGame()->GetShip();
+			pot->SetHealth((pot->GetHealth()) - ship->GetDamage());
+			GetGame()->MapChange++;
+		}
+	}
 	}
 }
