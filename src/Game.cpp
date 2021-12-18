@@ -21,6 +21,7 @@
 #include "defs.h"
 #include "BGSpriteComponent.h"
 #include "Portal.h"
+#include "Stage.h"
 
 Game::Game()
 :mWindow(nullptr)
@@ -111,9 +112,7 @@ void Game::UpdateGame()
 {
 	// Compute delta time
 	// Wait until 16ms has elapsed since last frame
-	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
-		;
-
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16));
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
 	if (deltaTime > 0.05f)
 	{
@@ -121,7 +120,7 @@ void Game::UpdateGame()
 	}
 	mTicksCount = SDL_GetTicks();
 
-	//다 죽고, 포탈이 없을때
+	//다 죽음
 	if (numEnemy <= 0)
 	{
 		new Portal(this);
@@ -134,9 +133,10 @@ void Game::UpdateGame()
 		// int numAsteroids = Random::GetIntRange((int)(3 + mDifficulty*0.5), (int)(5+mDifficulty*0.5));
 		int numAsteroids = Random::GetIntRange(1, 1);
 		numEnemy += numAsteroids;
-		//백그라운드 변경+재소환
-		Actor *temp2 = new Actor(this);
-		SetBackGround(temp2, 1);
+
+		int gStage = Random::GetIntRange(1,2);
+		mStage = new Stage(this, gStage);
+		
 		for (int i = 0; i < numAsteroids; i++)
 		{
 			new Asteroid(this);
@@ -176,7 +176,8 @@ void Game::UpdateGame()
 					break;
 				case Actor::RESETTER : 
 					SetPortalState(true);
-				break;
+					mStage->SetState(Actor::EDead);
+					break;
 			}
 			deadActors.emplace_back(actor);
 		}
@@ -204,7 +205,10 @@ void Game::GenerateOutput()
 }
 
 void Game::LoadData()
-{
+{	
+	//Create Stage
+	mStage = new Stage(this,1);
+	mStage->SetStage(1);
 	// Create player's ship
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(512.0f, 384.0f));
@@ -218,52 +222,6 @@ void Game::LoadData()
 		new Asteroid(this);
 	}
 
-	//변경부분 백그라운드 추가 - 후속으로 스테이지 변경 시 백그라운드 변경 예정 - 완료
-	// Create actor for the background (this doesn't need a subclass)
-	Actor* temp = new Actor(this);
-	SetBackGround(temp,1);
-
-}
-
-/**
- * @brief Set the Back Ground object
- * 
- * @param tmp  Class Actor*
- * @param stage stage NUM
- */
-void Game::SetBackGround(class Actor* tmp , int stage)
-{	
-	tmp->SetPosition(Vector2(512.0f, 384.0f));
-	// Create the "far back" background
-	BGSpriteComponent *bg = new BGSpriteComponent(tmp);
-	BGSpriteComponent *bg2 = new BGSpriteComponent(tmp,50);
-	bg->SetScreenSize(Vector2(1024.0f, 768.0f));
-	bg2->SetScreenSize(Vector2(1024.0f, 768.0f));
-	std::vector<SDL_Texture *> bgtexs;
-	std::vector<SDL_Texture *> bgtexs2;
-	switch (stage)
-	{
-	case 1:
-		bgtexs = {
-			tmp->GetGame()->GetTexture("Assets/Farback01.png"),
-			tmp->GetGame()->GetTexture("Assets/Farback02.png")};
-		bgtexs2 = {
-			tmp->GetGame()->GetTexture("Assets/Stars.png"),
-			tmp->GetGame()->GetTexture("Assets/Stars.png")};
-		break;
-	case 2:
-		bgtexs = {
-			tmp->GetGame()->GetTexture("Assets/Farback01.png"),
-			tmp->GetGame()->GetTexture("Assets/Farback02.png")};
-		bgtexs2 = {
-			tmp->GetGame()->GetTexture("Assets/Stars.png"),
-			tmp->GetGame()->GetTexture("Assets/Stars.png")};
-		break;
-	}
-	bg->SetBGTextures(bgtexs);
-	bg->SetScrollSpeed(-50.0f);
-	bg2->SetBGTextures(bgtexs2);
-	bg2->SetScrollSpeed(-50.0f);
 }
 
 void Game::UnloadData()

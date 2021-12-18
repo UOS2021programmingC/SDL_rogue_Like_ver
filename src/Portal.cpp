@@ -11,6 +11,7 @@
 #include "defs.h"
 #include "Item.h"
 #include "Ship.h"
+#include "Stage.h"
 
 Portal::Portal(Game* game)
 	:Actor(game)
@@ -33,9 +34,9 @@ void Portal::UpdateActor(float deltaTime)
 {
 
 	auto ship = GetGame()->GetShip();
-
+	auto stage = GetGame()->GetStage();
 	if (Intersect(*mCircle, *(ship->GetCircle())))
-	{
+	{	
 		SetState(EDead);
 	}
 }

@@ -29,8 +29,6 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
-	void SetBackGround(class Actor* tmp,int stage);
-
 	SDL_Texture* GetTexture(const std::string& fileName);
 
 	void AddAsteroid(class Asteroid* ast);
@@ -38,6 +36,7 @@ public:
 	std::vector<class Asteroid*>& GetAsteroids() { return mAsteroids; }
 
 	class Ship* GetShip() {return mShip; }
+	class Stage* GetStage() {return mStage; }
 	float GetDiff() {return mDifficulty;}
 
 	void SetPortalState(bool value) { mActivePortal = value; }
@@ -71,6 +70,7 @@ private:
 	// Game-specific
 	class Ship *mShip; // Player's ship
 	std::vector<class Asteroid*> mAsteroids;
+	class Stage *mStage;
 
 	int mDifficulty;
 	bool mActivePortal;
