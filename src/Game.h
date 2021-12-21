@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include "Stage.h"
 
 class Game
 {
@@ -23,27 +24,37 @@ public:
 	void RunLoop();
 	void Shutdown();
 
+	//ADdd & Remove Compoonent
 	void AddActor(class Actor* actor);
 	void RemoveActor(class Actor* actor);
 
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
-	SDL_Texture* GetTexture(const std::string& fileName);
+	
 
+	//Add& Remove ACOTRs.
 	void AddAsteroid(class Asteroid* ast);
 	void RemoveAsteroid(class Asteroid* ast);
 	std::vector<class Asteroid*>& GetAsteroids() { return mAsteroids; }
 
+
+	//Get&Set Val
 	class Ship* GetShip() {return mShip; }
 	class Stage* GetStage() {return mStage; }
 	float GetDiff() {return mDifficulty;}
 
+	//SDL_Val
 	SDL_Window* GetWindow() {return mWindow;}
 	SDL_Renderer* GetRenderer() { return mRenderer;}
+	SDL_Texture *GetTexture(const std::string &fileName);
 
 	void SetPortalState(bool value) { mActivePortal = value; }
+
+	//적의 수
 	int numEnemy;
+	//stage변수
+	int mStageNUM;
 	
 private:
 	void ProcessInput();

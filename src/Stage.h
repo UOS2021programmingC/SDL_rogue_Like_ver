@@ -5,25 +5,27 @@
 #pragma once
 
 #include "Actor.h"
+
 class Stage : public Actor
 {
 public:
     enum STAGE
     {
-        EFirst,
-        ESecond
+        EFirst =0,
+        ESecond,
+        EThird
     };
 
     Stage(class Game *game, int n);
 
-    int GetStage() { return mStageNUM; }
-    void SetStage(int stage) { mStageNUM = stage;}
+    int GetStageNUM() { return mStageNUM; }
+    void SetStage(int stage) { mStageNUM = static_cast<STAGE>(stage);}
 
     void LoadStage();
 
 private:
     class BGSpriteComponent *mBG1;
     class BGSpriteComponent *mBG2;
-    int mStageNUM;
+    STAGE mStageNUM;
 
 };

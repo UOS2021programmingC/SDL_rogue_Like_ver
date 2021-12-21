@@ -10,8 +10,9 @@
 
 Stage::Stage(Game *game, int n)
     : Actor(game)
-    ,mStageNUM(n)
+    
 {
+    SetStage(n);
     SetName(NoName);
     SetPosition(Vector2(512.0f, 384.0f));
 
@@ -28,7 +29,7 @@ void Stage::LoadStage()
     std::vector<SDL_Texture *> bgtexs2;
     switch (mStageNUM)
     {
-    case 1:
+    case EFirst:
         bgtexs = {
             GetGame()->GetTexture("Assets/Farback01.png"),
             GetGame()->GetTexture("Assets/Farback02.png")};
@@ -36,13 +37,21 @@ void Stage::LoadStage()
             GetGame()->GetTexture("Assets/Stars.png"),
             GetGame()->GetTexture("Assets/Stars.png")};
         break;
-    case 2:
+    case ESecond:
         bgtexs = {
-            GetGame()->GetTexture("assets/background.png"),
-            GetGame()->GetTexture("Assets/Farback02.png")};
-        bgtexs2 = {
-            GetGame()->GetTexture("Assets/Stars.png"),
-            GetGame()->GetTexture("Assets/Stars.png")};
+            GetGame()->GetTexture("Assets/cave.png"),
+            GetGame()->GetTexture("Assets/cave.png")};
+        // bgtexs2 = {
+        //     GetGame()->GetTexture("Assets/Stars.png"),
+        //     GetGame()->GetTexture("Assets/Stars.png")};
+        break;
+    case EThird:
+        bgtexs = {
+            GetGame()->GetTexture("Assets/ice_back.png"),
+            GetGame()->GetTexture("Assets/ice_back.png")};
+        // bgtexs2 = {
+        //     GetGame()->GetTexture("Assets/Stars.png"),
+        //     GetGame()->GetTexture("Assets/Stars.png")};
         break;
     }
     mBG1->SetBGTextures(bgtexs);

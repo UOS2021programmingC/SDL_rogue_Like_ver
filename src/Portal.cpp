@@ -34,7 +34,7 @@ void Portal::UpdateActor(float deltaTime)
 {
 
 	auto ship = GetGame()->GetShip();
-	auto stage = GetGame()->GetStage();
+	// auto stage = GetGame()->GetStage();
 	if (Intersect(*mCircle, *(ship->GetCircle())))
 	{	
 		SetState(EDead);

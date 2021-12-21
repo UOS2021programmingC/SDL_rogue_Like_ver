@@ -21,8 +21,8 @@
 #include "defs.h"
 #include "BGSpriteComponent.h"
 #include "Portal.h"
-#include "Stage.h"
 #include "SDL2/SDL_ttf.h"
+
 
 Game::Game()
 :mWindow(nullptr)
@@ -135,14 +135,14 @@ void Game::UpdateGame()
 		int numAsteroids = Random::GetIntRange(1, 1);
 		numEnemy += numAsteroids;
 
-		int gStage = Random::GetIntRange(1,2);
-		mStage = new Stage(this, gStage);
+		//Stage 변화
+		mStageNUM = static_cast<Stage::STAGE>(((int)mStageNUM+1)%3);
+		mStage = new Stage(this, (int)mStageNUM);
 		
 		for (int i = 0; i < numAsteroids; i++)
-		{
+		{	
 			new Asteroid(this);
 		}
-		
 		SetPortalState(false);
 	}
 	// Update all actors
@@ -207,9 +207,10 @@ void Game::GenerateOutput()
 
 void Game::LoadData()
 {	
-	//Create Stage
-	mStage = new Stage(this,1);
-	mStage->SetStage(1);
+	//Create First Stage
+	mStageNUM = Stage::EFirst;
+	mStage = new Stage(this,mStageNUM);
+	mStage->SetStage(0);
 	// Create player's ship
 	mShip = new Ship(this);
 	mShip->SetPosition(Vector2(512.0f, 384.0f));
@@ -348,7 +349,6 @@ void Game::AddSprite(SpriteComponent* sprite)
 			break;
 		}
 	}
-
 	// Inserts element before position of iterator
 	mSprites.insert(iter, sprite);
 }
