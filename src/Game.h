@@ -54,7 +54,7 @@ public:
 	//적의 수
 	int numEnemy;
 	//stage변수
-	int mStageNUM;
+	Stage::STAGE mStageNUM;
 	
 private:
 	void ProcessInput();

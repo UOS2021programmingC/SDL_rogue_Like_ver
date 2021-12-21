@@ -15,11 +15,12 @@ public:
         ESecond,
         EThird
     };
-
-    Stage(class Game *game, int n);
+    
+    Stage(class Game *game, STAGE n);
 
     int GetStageNUM() { return mStageNUM; }
     void SetStage(int stage) { mStageNUM = static_cast<STAGE>(stage);}
+    void SetStage(STAGE stage) { mStageNUM = stage; }
 
     void LoadStage();
 

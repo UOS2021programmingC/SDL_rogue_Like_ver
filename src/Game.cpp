@@ -137,7 +137,7 @@ void Game::UpdateGame()
 
 		//Stage 변화
 		mStageNUM = static_cast<Stage::STAGE>(((int)mStageNUM+1)%3);
-		mStage = new Stage(this, (int)mStageNUM);
+		mStage = new Stage(this, mStageNUM);
 		
 		for (int i = 0; i < numAsteroids; i++)
 		{	

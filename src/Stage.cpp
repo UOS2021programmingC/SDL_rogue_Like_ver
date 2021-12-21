@@ -8,11 +8,10 @@
 #include "Stage.h"
 #include "Math.h"
 
-Stage::Stage(Game *game, int n)
+Stage::Stage(Game *game, STAGE stage)
     : Actor(game)
-    
 {
-    SetStage(n);
+    SetStage(stage);
     SetName(NoName);
     SetPosition(Vector2(512.0f, 384.0f));
 
@@ -23,6 +22,7 @@ Stage::Stage(Game *game, int n)
     mBG2->SetScreenSize(Vector2(1024.0f, 768.0f));
     LoadStage();
 }
+
 void Stage::LoadStage()
 {
     std::vector<SDL_Texture *> bgtexs;
