@@ -39,6 +39,9 @@ public:
 	class Stage* GetStage() {return mStage; }
 	float GetDiff() {return mDifficulty;}
 
+	SDL_Window* GetWindow() {return mWindow;}
+	SDL_Renderer* GetRenderer() { return mRenderer;}
+
 	void SetPortalState(bool value) { mActivePortal = value; }
 	int numEnemy;
 	
