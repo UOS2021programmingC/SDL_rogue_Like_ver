@@ -8,7 +8,6 @@
 // Updated by Chul 9&J teams
 // in C_programing project in Mechanical Informaion Engineering UOS, 2021.
 // ----------------------------------------------------------------
-
 #include "Asteroid.h"
 #include "SpriteComponent.h"
 #include "MoveComponent.h"
@@ -66,7 +65,7 @@ Asteroid::Asteroid(Game *game)
 		sc->SetTexture(game->GetTexture("./Assets/ice.png"));
 		break;
 	case Stage::EThird:
-		SetScale(0.3f);
+		SetScale(0.1f);
 		sc->SetTexture(game->GetTexture("./Assets/rock.png"));
 		break;
 	}
