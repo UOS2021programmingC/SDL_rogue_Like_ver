@@ -18,7 +18,7 @@ Portal::Portal(Game* game)
 	,mCircle(nullptr)
 {	
 	SetName(RESETTER);
-	SetPosition(Vector2(512.0f, 384.0f));
+	SetPosition(Vector2(CENTER_POSITION_X, CENTER_POSITION_Y));
 	SetRotation(Random::GetFloatRange(0.0f, Math::TwoPi));
 
 	// Create a sprite component
@@ -27,20 +27,17 @@ Portal::Portal(Game* game)
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
-	mCircle->SetRadius(40.0f);
+	mCircle->SetRadius(ACTOR_DEFAULT_RADIUS);
 }
 
 void Portal::UpdateActor(float deltaTime)
 {
 
 	auto ship = GetGame()->GetShip();
-	// auto stage = GetGame()->GetStage();
+	//플레이어와 접촉 시
 	if (Intersect(*mCircle, *(ship->GetCircle())))
 	{	
+		//포탈 사라짐
 		SetState(EDead);
 	}
 }
-// Portal::~Portal()
-// {
-// 	GetGame()->RemovePortal(this);
-// }

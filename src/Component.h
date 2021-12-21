@@ -11,6 +11,10 @@
 #pragma once
 #include <cstdint>
 
+/**
+ * @brief Acotr의 구성요소 벡터에
+ * 구성요소들을 넣어주는 클래스
+ */
 class Component
 {
 public:

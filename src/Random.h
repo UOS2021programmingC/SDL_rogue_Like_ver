@@ -9,7 +9,10 @@
 #pragma  once
 #include <random>
 #include "Math.h"
-
+/**
+ * @brief 난수생성을 위한 클래스
+ * 랜덤벡터 생성이 가능하다.
+ */
 class Random
 {
 public:

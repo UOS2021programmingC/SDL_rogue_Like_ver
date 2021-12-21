@@ -29,11 +29,11 @@ Laser::Laser(Game* game)
 
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(1000.0f);
+	mc->SetForwardSpeed(LASER_SPD);
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
-	mCircle->SetRadius(11.0f);
+	mCircle->SetRadius(LASER_RADIUS);
 
 	//STAT
 	SetDamage(PLAYER_DAMAGE);

@@ -14,7 +14,12 @@
 #include "SpriteComponent.h"
 #include <vector>
 #include "Math.h"
-
+/**
+ * @brief 움직이는 배경을 위한 SpriteComponent인  BGSpriteComponent.
+ * 텍스쳐를 벡터형식으로 여러개 가지고있는다.
+ * 그것을 바탕으로 순차적으로 이미지를 붙인다.(파노라마 구현)
+ * 그후 속도를 주어 움직이게 만든다.
+ */
 class BGSpriteComponent : public SpriteComponent
 {
 public:

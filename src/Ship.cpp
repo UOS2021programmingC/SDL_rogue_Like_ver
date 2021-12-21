@@ -26,7 +26,7 @@ Ship::Ship(Game* game)
 	SetName(Player);
 	// Create a sprite component
 	SpriteComponent* sc = new SpriteComponent(this, 150);
-	sc->SetTexture(game->GetTexture("./Assets/Ship.png"));
+	sc->SetTexture(game->GetTexture("./Assets/Player1.png"));
 
 	// Create an input component and set keys/speed
 	ic = new InputComponent(this);
@@ -39,7 +39,7 @@ Ship::Ship(Game* game)
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
-	mCircle->SetRadius(40.0f);
+	mCircle->SetRadius(ACTOR_DEFAULT_RADIUS);
 
 	//STAT
 	SetHealth(PLAYER_HEALTH);

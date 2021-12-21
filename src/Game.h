@@ -16,6 +16,11 @@
 #include <vector>
 #include "Stage.h"
 
+/**
+ * @brief 전체적인 Game 진행을위한 구성요소 
+ * GameLoop를 위한 기능들이 구성되어있다.
+ * 게임의 루프와 인풋, 아웃풋등을 조절한다.
+ */
 class Game
 {
 public:
@@ -31,13 +36,10 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
-	
-
 	//Add& Remove ACOTRs.
 	void AddAsteroid(class Asteroid* ast);
 	void RemoveAsteroid(class Asteroid* ast);
 	std::vector<class Asteroid*>& GetAsteroids() { return mAsteroids; }
-
 
 	//Get&Set Val
 	class Ship* GetShip() {return mShip; }
@@ -49,6 +51,7 @@ public:
 	SDL_Renderer* GetRenderer() { return mRenderer;}
 	SDL_Texture *GetTexture(const std::string &fileName);
 
+	//PortalState
 	void SetPortalState(bool value) { mActivePortal = value; }
 
 	//적의 수
@@ -86,6 +89,8 @@ private:
 	std::vector<class Asteroid*> mAsteroids;
 	class Stage *mStage;
 
+	//난도
 	int mDifficulty;
+	//포탈 활성 여부
 	bool mActivePortal;
 };

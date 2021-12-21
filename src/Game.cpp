@@ -82,6 +82,7 @@ void Game::RunLoop()
 	}
 }
 
+//게임의 종료를 아웃풋으로 하는 입력을 다룬다.
 void Game::ProcessInput()
 {
 	SDL_Event event;
@@ -109,6 +110,7 @@ void Game::ProcessInput()
 	mUpdatingActors = false;
 }
 
+//deltatime에 따라 프로그램을 업데이트한다.
 void Game::UpdateGame()
 {
 	// Compute delta time
@@ -121,7 +123,7 @@ void Game::UpdateGame()
 	}
 	mTicksCount = SDL_GetTicks();
 
-	//다 죽음
+	//적이 모두사망=스테이지클리어
 	if (numEnemy <= 0)
 	{
 		new Portal(this);
@@ -131,8 +133,8 @@ void Game::UpdateGame()
 	{
 		//난이도에따라 생성되는 적의 수의 범위가 달라진다.
 		mDifficulty += 1;
-		// int numAsteroids = Random::GetIntRange((int)(3 + mDifficulty*0.5), (int)(5+mDifficulty*0.5));
-		int numAsteroids = Random::GetIntRange(1, 1);
+		int numAsteroids = Random::GetIntRange((int)(3 + mDifficulty*0.3), (int)(5+mDifficulty*0.1));
+		// int numAsteroids = Random::GetIntRange(1, 1);
 		numEnemy += numAsteroids;
 
 		//Stage 변화
@@ -165,16 +167,20 @@ void Game::UpdateGame()
 	for (auto actor : mActors)
 	{
 		if (actor->GetState() == Actor::EDead)
-		{
+		{	
+			//Actor태그에 따라 다르게 동작.
 			switch(actor->GetName())
-			{
+			{	
+				//플레어사망시 게임종료
 				case Actor::Player :
 					SDL_Log("Player Dead!");
-					mIsRunning = false; //
+					mIsRunning = false; 
 					break;
+				//적사망시 적 카운트
 				case Actor::Enemy :
-					numEnemy--; //count enemy
+					numEnemy--; 
 					break;
+				//리셋터 사망 시 포탈 생성 및 기존 스테이지 제거
 				case Actor::RESETTER : 
 					SetPortalState(true);
 					mStage->SetState(Actor::EDead);
@@ -191,6 +197,7 @@ void Game::UpdateGame()
 	}
 }
 
+//기본창 생성 및 스프라이트 구성요소들을 모두 Draw한다.
 void Game::GenerateOutput()
 {
 	SDL_SetRenderDrawColor(mRenderer, 220, 220, 220, 255);
@@ -204,16 +211,17 @@ void Game::GenerateOutput()
 
 	SDL_RenderPresent(mRenderer);
 }
-
+//기본적으로 게임시작 시 한번 Load해야할 데이터를 로드한다.
 void Game::LoadData()
 {	
 	//Create First Stage
 	mStageNUM = Stage::EFirst;
 	mStage = new Stage(this,mStageNUM);
 	mStage->SetStage(0);
+
 	// Create player's ship
 	mShip = new Ship(this);
-	mShip->SetPosition(Vector2(512.0f, 384.0f));
+	mShip->SetPosition(Vector2(CENTER_POSITION_X, CENTER_POSITION_Y));
 	mShip->SetRotation(Math::PiOver2);
 
 	// Create asteroids
@@ -225,7 +233,7 @@ void Game::LoadData()
 	}
 
 }
-
+//구성 데이터 삭제 
 void Game::UnloadData()
 {
 	// Delete actors
@@ -242,7 +250,7 @@ void Game::UnloadData()
 	}
 	mTextures.clear();
 }
-
+//Texture Manager
 SDL_Texture* Game::GetTexture(const std::string& fileName)
 {
 	SDL_Texture* tex = nullptr;
@@ -276,11 +284,12 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
 	return tex;
 }
 
+//적추가
 void Game::AddAsteroid(Asteroid* ast)
 {
 	mAsteroids.emplace_back(ast);
 }
-
+//적제거
 void Game::RemoveAsteroid(Asteroid* ast)
 {
 	auto iter = std::find(mAsteroids.begin(),
@@ -290,7 +299,7 @@ void Game::RemoveAsteroid(Asteroid* ast)
 		mAsteroids.erase(iter);
 	}
 }
-
+//게임 종료시 절차
 void Game::Shutdown()
 {
 	UnloadData();
@@ -300,6 +309,7 @@ void Game::Shutdown()
 	SDL_Quit();
 }
 
+//Actor추가
 void Game::AddActor(Actor* actor)
 {
 	// If we're updating actors, need to add to pending
@@ -312,10 +322,10 @@ void Game::AddActor(Actor* actor)
 		mActors.emplace_back(actor);
 	}
 }
-
+// Actor삭제
 void Game::RemoveActor(Actor* actor)
 {
-	// Is it in pending actors?
+	// Is it in pending actors
 	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
 	if (iter != mPendingActors.end())
 	{
@@ -324,7 +334,7 @@ void Game::RemoveActor(Actor* actor)
 		mPendingActors.pop_back();
 	}
 
-	// Is it in actors?
+	// Is it in actors
 	iter = std::find(mActors.begin(), mActors.end(), actor);
 	if (iter != mActors.end())
 	{
@@ -334,6 +344,8 @@ void Game::RemoveActor(Actor* actor)
 	}
 }
 
+//Sprite 추가
+//Drtaw Order에 따라 Sprite벡터에 저장
 void Game::AddSprite(SpriteComponent* sprite)
 {
 	// Find the insertion point in the sorted vector
@@ -352,7 +364,7 @@ void Game::AddSprite(SpriteComponent* sprite)
 	// Inserts element before position of iterator
 	mSprites.insert(iter, sprite);
 }
-
+// Sprite 제거
 void Game::RemoveSprite(SpriteComponent* sprite)
 {
 	// (We can't swap because it ruins ordering)

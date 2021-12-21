@@ -8,7 +8,9 @@
 
 #pragma once
 #include "Component.h"
-
+/**
+ * @brief Acotr의 속도 관련 벡터 와 위치벡터를 다루는 클래스
+ */
 class MoveComponent : public Component
 {
 public:

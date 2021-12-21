@@ -1,6 +1,3 @@
-// Made by Chul 9&J teams
-// in C_programing project in Mechanical Informaion Engineering UOS, 2021.
-// ----------------------------------------------------------------
 #include "Item.h"
 #include "SpriteComponent.h"
 #include "MoveComponent.h"
@@ -14,7 +11,7 @@
 
 Item::Item(Game* game)
 	:Actor(game)
-	,mDeathTimer(5.0f)
+	,mDeathTimer(ITEM_LIFE) //5초후 자동 사라짐
 {
 	SetName(NoName);
 	//item state Random set
@@ -40,11 +37,11 @@ Item::Item(Game* game)
 	
 	// Create a move component, and set a forward speed
 	MoveComponent* mc = new MoveComponent(this);
-	mc->SetForwardSpeed(80.0f);
+	mc->SetForwardSpeed(ITEM_SPD); //아이템이동속도
 
 	// Create a circle component (for collision)
 	mCircle = new CircleComponent(this);
-	mCircle-> SetRadius(10.0f);
+	mCircle->SetRadius(ITEM_RADIUS);
 
 	//STAT
 	
@@ -65,21 +62,26 @@ void Item::UpdateActor(float deltaTime)
 		Laser *mlaser;
 
 			if (Intersect(*mCircle, *(mship->GetCircle())))
-		{
+		{	
+			//아이템에 따라 기능부야.
 			switch (GetItemState())
 			{
+				//플레이어 공격력 증가.
 			case Eatk:
 				mship->SetDamage(mship->GetDamage() + ITEM_ATK);
 				SetState(EDead);
 				break;
+				//플레이어 체력증가.
 			case Ehealth:
 				mship->SetHealth(mship->GetHealth() + ITEM_HP);
 				SetState(EDead);
 				break;
+				//플레이어 속도 증가.
 			case Espeed:
 				mship->GetInputComponent()->PlusMaxForwardSpeed(ITEM_SPD);
 				SetState(EDead);
 				break;
+				//플레이어 발사속도 증가.
 			case Erapid:
 				if (mship->GetLaserCool() < LASER_COOLDOWN)
 				{

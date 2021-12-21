@@ -8,6 +8,9 @@
 
 #include "Game.h"
 
+/**
+ * @brief Game class의 게임루프를 무한 실행하는 main함수
+ */
 int main(int argc, char** argv)
 {
 	Game game;

@@ -1,6 +1,12 @@
 // Made by Chul 9&J teams
 // in C_programing project in Mechanical Informaion Engineering UOS, 2021.
 // ----------------------------------------------------------------
+/**
+ * @brief SDL_ttf구현을 위한 클래스 구현
+ * 
+ *      그러나, 실패했다.(디버깅필요)
+ */
+
 #if 0 NOTDEBUG
 
 #pragma once

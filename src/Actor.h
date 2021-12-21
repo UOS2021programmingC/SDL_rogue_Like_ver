@@ -8,15 +8,24 @@
 // Updated by Chul 9&J teams
 // in C_programing project in Mechanical Informaion Engineering UOS, 2021.
 // ----------------------------------------------------------------
-
 #pragma once
 #include <vector>
 #include "Math.h"
 #include <cstdint>
-
+/**
+ * @brief Actor
+ * 게임에서 하나의 객체를 다루기 위한 클래스이다.
+ * 객체의  위치정보, 렌더링사이즈, 체력 등이 모두 포함되어 있다.
+ * 추가적인 구성요소를 벡터형식으로 저장한다.
+ */
 class Actor
 {
 public:
+	/** Tag State name ,
+	 * @param EActive : 살아있는 상태, 게임에 존재한다.
+	 * @param EPaused : 정지 상태, 게임에서 사라지지는 않는다.
+	 * @param EDdead : 죽은 상태, 게임에서 사라지게 된다.
+	 */
 	enum State
 	{
 		EActive,
@@ -24,6 +33,12 @@ public:
 		EDead
 	};
 
+	/** Tag Actor name , 
+	 * @param player : 플레이어. 적과 리셋터 등과 상호작용한다.
+	 * @param Enemy : 적의 특성, 플레이어와 닿으면 사라지며 플레이어에게 데미지를 준다.
+	 * @param NoName : 아무런 특성을 가지지 않는다
+	 * @param RESETTER : 닿으면 스테이지와 적의 소환을 변경한다.
+	*/
 	enum Name
 	{
 		Player,

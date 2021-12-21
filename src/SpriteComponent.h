@@ -9,6 +9,10 @@
 #pragma once
 #include "Component.h"
 #include "SDL2/SDL.h"
+/**
+ * @brief texturemanager. SDL_Texture에 대한 동작을 다룬다.
+ * 텍스처를 할당하고, Draw Order에 따른 Draw를 구현한다.
+ */
 class SpriteComponent : public Component
 {
 public:

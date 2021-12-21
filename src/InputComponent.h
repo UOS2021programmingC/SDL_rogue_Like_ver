@@ -12,6 +12,10 @@
 #include "MoveComponent.h"
 #include <cstdint>
 
+/**
+ * @brief keystate배열에 따른 속도를 지정해준다.
+ * keystate배열을 actor단위로 조정할 수 있다.
+ */
 class InputComponent : public MoveComponent
 {
 public:

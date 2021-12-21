@@ -6,6 +6,10 @@
 // See LICENSE in root directory for full details.
 // ----------------------------------------------------------------
 
+/**
+ * @file Math.cpp
+ * @brief 2,3차원 벡터와 그에따른 연산을 다룬다.
+ */
 #pragma once
 
 #include <cmath>

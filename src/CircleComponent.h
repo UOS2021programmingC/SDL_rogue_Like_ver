@@ -12,6 +12,12 @@
 #include "Component.h"
 #include "Math.h"
 
+/**
+ * @brief 충돌 구현을 위한 구성요소 
+ * actor의 postion 좌표값의 거리를 구하고,
+ * 이와 각자 CircleComponent의 반지름과 비교하여 
+ * 충돌여부를 감지한다.
+ */
 class CircleComponent : public Component
 {
 public:

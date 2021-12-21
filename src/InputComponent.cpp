@@ -17,9 +17,7 @@ InputComponent::InputComponent(class Actor* owner)
 ,mBackKey(0)
 ,mClockwiseKey(0)
 ,mCounterClockwiseKey(0)
-{
-	
-}
+{}
 
 void InputComponent::ProcessInput(const uint8_t* keyState)
 {

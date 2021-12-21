@@ -13,13 +13,13 @@ Stage::Stage(Game *game, STAGE stage)
 {
     SetStage(stage);
     SetName(NoName);
-    SetPosition(Vector2(512.0f, 384.0f));
+    SetPosition(Vector2(CENTER_POSITION_X, CENTER_POSITION_Y));
 
     // Create the "far back" background
     mBG1 = new BGSpriteComponent(this);
     mBG2 = new BGSpriteComponent(this, 50);
-    mBG1->SetScreenSize(Vector2(1024.0f, 768.0f));
-    mBG2->SetScreenSize(Vector2(1024.0f, 768.0f));
+    mBG1->SetScreenSize(Vector2(STAGE_W, STAGE_H));
+    mBG2->SetScreenSize(Vector2(STAGE_W, STAGE_H));
     LoadStage();
 }
 
@@ -41,21 +41,15 @@ void Stage::LoadStage()
         bgtexs = {
             GetGame()->GetTexture("Assets/cave.png"),
             GetGame()->GetTexture("Assets/cave.png")};
-        // bgtexs2 = {
-        //     GetGame()->GetTexture("Assets/Stars.png"),
-        //     GetGame()->GetTexture("Assets/Stars.png")};
         break;
     case EThird:
         bgtexs = {
             GetGame()->GetTexture("Assets/ice_back.png"),
             GetGame()->GetTexture("Assets/ice_back.png")};
-        // bgtexs2 = {
-        //     GetGame()->GetTexture("Assets/Stars.png"),
-        //     GetGame()->GetTexture("Assets/Stars.png")};
         break;
     }
     mBG1->SetBGTextures(bgtexs);
-    mBG1->SetScrollSpeed(-50.0f);
+    mBG1->SetScrollSpeed(STAGE_SPD);
     mBG2->SetBGTextures(bgtexs2);
-    mBG2->SetScrollSpeed(-50.0f);
+    mBG2->SetScrollSpeed(STAGE_SPD);
 }

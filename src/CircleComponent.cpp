@@ -15,20 +15,21 @@
 CircleComponent::CircleComponent(class Actor* owner)
 :Component(owner)
 ,mRadius(0.0f)
-{
-	
-}
+{}
 
+//중심좌표
 const Vector2& CircleComponent::GetCenter() const
 {
 	return mOwner->GetPosition();
 }
 
+//반지름 return
 float CircleComponent::GetRadius() const
 {
 	return mOwner->GetScale() * mRadius;
 }
 
+//충돌여부 확인
 bool Intersect(const CircleComponent& a, const CircleComponent& b)
 {
 	// Calculate distance squared
